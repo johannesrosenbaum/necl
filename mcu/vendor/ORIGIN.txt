@@ -1,0 +1,8 @@
+lz4.c / lz4.h — https://github.com/lz4/lz4  v1.10.0  BSD-2-Clause
+miniz 3.0.2 — https://github.com/richgel999/miniz  MIT
+  miniz.c miniz.h miniz_common.h miniz_tdef.* miniz_tinfl.* miniz_zip.*
+  miniz_export.h: lokale Stub-Definition (Upstream-Header fehlte als Einzeldatei).
+heatshrink v0.4.1 — https://github.com/atomicobject/heatshrink  ISC
+  heatshrink_{common,encoder,decoder}.{c,h}
+  heatshrink_config.h: lokale Static-Config (DYNAMIC_ALLOC=0, W=8, L=4, USE_INDEX=1).
+Nur MCU-Size/Ratio-Vergleich. Originale bis auf Config-Stub unverändert.

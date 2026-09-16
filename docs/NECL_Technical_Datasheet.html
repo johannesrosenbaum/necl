@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NECL (nec_lite) Technical Datasheet</title>
+  <style>
+    :root {
+      --ink: #111418;
+      --muted: #4a5560;
+      --line: #d5dbe3;
+      --paper: #ffffff;
+      --tint: #f4f6f8;
+      --ok: #1b5e3b;
+      --warn: #7a4a00;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font: 10.5pt/1.45 "DejaVu Sans", "Liberation Sans", "Segoe UI", sans-serif;
+      hyphens: none;
+      -webkit-hyphens: none;
+    }
+    @page { size: A4; margin: 14mm 14mm 16mm; }
+    .page { max-width: 190mm; margin: 0 auto; padding: 16px 20px 28px; }
+    header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      border-bottom: 2px solid var(--ink);
+      padding-bottom: 12px;
+      margin-bottom: 14px;
+    }
+    .kicker { letter-spacing: 0.12em; text-transform: uppercase; font-size: 8pt; color: var(--muted); }
+    h1 { font-size: 18pt; margin: 4px 0 6px; font-weight: 650; line-height: 1.2; }
+    .sub { color: var(--muted); margin: 0; max-width: 42em; }
+    .meta { text-align: right; font-size: 8.5pt; color: var(--muted); }
+    .meta strong { display: block; color: var(--ink); font-size: 10pt; margin-bottom: 4px; }
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin: 14px 0;
+    }
+    .kpi {
+      background: var(--tint);
+      border: 1px solid var(--line);
+      padding: 10px 12px;
+    }
+    .kpi .v { font-size: 14pt; font-weight: 650; letter-spacing: -0.02em; }
+    .kpi .l { font-size: 8pt; color: var(--muted); margin-top: 2px; }
+    .pitch {
+      border-left: 3px solid var(--ink);
+      padding: 8px 0 8px 12px;
+      margin: 12px 0 16px;
+      font-size: 10.5pt;
+    }
+    h2 {
+      font-size: 11pt;
+      margin: 18px 0 8px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 4px;
+    }
+    p { margin: 0 0 8px; }
+    table { width: 100%; border-collapse: collapse; font-size: 9.5pt; margin: 8px 0 10px; }
+    th, td { border-bottom: 1px solid var(--line); padding: 5px 6px; text-align: left; vertical-align: top; }
+    th { font-size: 8pt; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); font-weight: 600; }
+    td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+    tr.ref td { font-weight: 650; }
+    .note { font-size: 8.5pt; color: var(--muted); margin: 0 0 10px; }
+    .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .box { border: 1px solid var(--line); padding: 10px 12px; }
+    .box h3 { margin: 0 0 6px; font-size: 10pt; }
+    ul { margin: 0; padding-left: 1.15em; }
+    li { margin: 0 0 4px; }
+    code, pre {
+      font-family: "DejaVu Sans Mono", "Liberation Mono", ui-monospace, Menlo, Consolas, monospace;
+      font-size: 8.5pt;
+      hyphens: none;
+    }
+    pre {
+      background: var(--tint);
+      border: 1px solid var(--line);
+      padding: 10px 12px;
+      overflow: hidden;
+      white-space: pre;
+      margin: 8px 0 0;
+      line-height: 1.4;
+    }
+    .ok { color: var(--ok); }
+    .warn { color: var(--warn); }
+    footer {
+      margin-top: 16px;
+      border-top: 1px solid var(--line);
+      padding-top: 8px;
+      font-size: 8pt;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    @media print {
+      .page { padding: 0; max-width: none; }
+      a { color: inherit; text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div>
+        <div class="kicker">Technical Datasheet · Rev 1.1 · 15. September 2026</div>
+        <h1>NECL (nec_lite) C-Core Spec Sheet</h1>
+        <p class="sub">Time-series kernel for Cortex-M. Gleiche Flags wie heatshrink, lz4 und miniz. Der ehrliche Peer ist heatshrink — nicht lz4.</p>
+      </div>
+      <div class="meta">
+        <strong>Bare-metal proof</strong>
+        ARM Cortex-M0 / M3<br />
+        malloc = 0 · Bound n+32<br />
+        Block-RAM = O(n)<br />
+        GCC 14.2.1 ELF-Map
+      </div>
+    </header>
+
+    <div class="kpis">
+      <div class="kpi"><div class="v">2.020 KB</div><div class="l">Flash nec_lite Cortex-M0</div></div>
+      <div class="kpi"><div class="v">2.236 KB</div><div class="l">Flash heatshrink W=8 Encoder+Decoder</div></div>
+      <div class="kpi"><div class="v">O(n)</div><div class="l">Caller-RAM: scratch=n, dst=n+32</div></div>
+      <div class="kpi"><div class="v">n + 32</div><div class="l">Harte Obergrenze (heatshrink expandiert)</div></div>
+    </div>
+
+    <blockquote class="pitch">
+      Unter gleichen <code>arm-none-eabi-gcc -Os</code>-Flags liegt <code>nec_lite</code> auf M0/M3 bei 1,9–2,0&nbsp;KB Flash — in derselben Größenordnung wie heatshrink (2,17 / 2,24&nbsp;KB Encoder+Decoder), klar unter lz4/miniz. Der Vorsprung ist nicht „der kleinste Codec im Segment“, sondern hartes <code>n+32</code>, Library-BSS = 0 und ein Delta-Frontend. heatshrink bleibt der bessere Allzweck-LZSS: konstantes Fenster-RAM, bessere Ratio, Streaming.
+    </blockquote>
+
+    <h2>1. Flash — gleiche Harness, jetzt inkl. heatshrink</h2>
+    <p>
+      <code>arm-none-eabi-gcc 14.2.1</code>, <code>-Os -mthumb -ffreestanding --gc-sections</code>, 128-Byte-Harness, kein libc.
+      heatshrink v0.4.1 statisch: <code>W=8 L=4 USE_INDEX=1 DYNAMIC_ALLOC=0</code> (kanonische Small-MCU-Config).
+      Flash = <code>size -A .text</code>. Quelle: <code>mcu-size.json</code>.
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th>CPU</th>
+          <th>Kernel</th>
+          <th class="num">Flash (.text)</th>
+          <th class="num">Library-BSS</th>
+          <th class="num">Harness-BSS (n=128)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="ref"><td>M3</td><td>nec_lite</td><td class="num">1.896</td><td class="num">0</td><td class="num">420</td></tr>
+        <tr><td>M3</td><td>heatshrink enc+dec</td><td class="num">2.168</td><td class="num">1.856 †</td><td class="num">548</td></tr>
+        <tr><td>M3</td><td>miniz tdefl/tinfl</td><td class="num">4.116</td><td class="num">0 ‡</td><td class="num">516</td></tr>
+        <tr><td>M3</td><td>lz4 v1.10</td><td class="num">4.308</td><td class="num">0</td><td class="num">404</td></tr>
+        <tr class="ref"><td>M0</td><td>nec_lite</td><td class="num">2.020</td><td class="num">0</td><td class="num">420</td></tr>
+        <tr><td>M0</td><td>heatshrink enc+dec</td><td class="num">2.236</td><td class="num">1.856 †</td><td class="num">548</td></tr>
+        <tr><td>M0</td><td>miniz</td><td class="num">4.828</td><td class="num">0 ‡</td><td class="num">516</td></tr>
+        <tr><td>M0</td><td>lz4</td><td class="num">6.488</td><td class="num">0</td><td class="num">404</td></tr>
+      </tbody>
+    </table>
+    <p class="note">
+      † heatshrink: Encoder-Fenster+Index 1.554&nbsp;B + Decoder 302&nbsp;B, konstant unabhängig von n.
+      Der ~1&nbsp;KB-Decoder-Claim ist Decoder-only (Objekt ~0,6&nbsp;KB .text vor GC); hier zählt Encoder+Decoder, analog zu nec_lite.
+      ‡ miniz <code>tdefl_compress_mem_to_mem</code> malloc’t intern den Compressor (~zehn KB); <code>MINIZ_NO_MALLOC</code> macht diese API zur Laufzeit unbrauchbar — Flash-Zahl bleibt der Code.
+      420&nbsp;B bei nec_lite ist src+dst+scratch für n=128, nicht „der Kernel braucht 420&nbsp;B“.
+    </p>
+
+    <h2>2. RAM-Modell: Block vs. Stream</h2>
+    <div class="cols">
+      <div class="box">
+        <h3>nec_lite, lz4, miniz — Block</h3>
+        <p>Die ganze Payload muss im RAM (oder XIP+RAM) liegen. nec_lite: schreibbar <code>scratch = n</code> plus <code>dst = n+32</code> (≈ 2n+32), plus src falls nicht im Flash. Bei n = 16&nbsp;KiB sind das ~32&nbsp;KiB schreibbar — auf einem 2–4&nbsp;KiB-SRAM-M0 der Engpass, nicht die 2&nbsp;KB Flash.</p>
+      </div>
+      <div class="box">
+        <h3>heatshrink — Stream</h3>
+        <p>Sink/Poll in beliebigen Häppchen. Library-RAM = Encoder 1.554&nbsp;B und/oder Decoder 302&nbsp;B, unabhängig von der Dateigröße. IO-Puffer z.&nbsp;B. 32&nbsp;B. Das ist der eigentliche RAM-Vorteil auf kleinem SRAM.</p>
+      </div>
+    </div>
+
+    <h2>3. Ratio — Host, Roundtrip, dieselben Corpora</h2>
+    <p>Quelle: <code>bash nec-core/scripts/codec_ratio.sh</code> → <code>ratio.txt</code>. coded/orig.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Corpus</th>
+          <th class="num">nec_lite</th>
+          <th class="num">heatshrink</th>
+          <th class="num">lz4</th>
+          <th class="num">miniz</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>harness128 (i×3, FE_I16)</td><td class="num">32,0%</td><td class="num">112,5%</td><td class="num">101,6%</td><td class="num">108,6%</td></tr>
+        <tr><td>timeseries_i16 160&nbsp;KB</td><td class="num">100,0%</td><td class="num">104,2%</td><td class="num">100,4%</td><td class="num">76,0%</td></tr>
+        <tr><td>ticks 144&nbsp;KB</td><td class="num">95,1%</td><td class="num">51,2%</td><td class="num">59,8%</td><td class="num">40,1%</td></tr>
+        <tr><td>logline_16k (LZSS-freundlich)</td><td class="num">100,2%</td><td class="num">10,3%</td><td class="num">0,6%</td><td class="num">0,6%</td></tr>
+        <tr><td>random_16k</td><td class="num">100,2%</td><td class="num">112,3%</td><td class="num">100,4%</td><td class="num">100,1%</td></tr>
+      </tbody>
+    </table>
+    <p class="note">
+      harness128 ist nec_lite-günstig (Delta+RLE). Auf Ticks und Logzeilen verliert RLE gegen LZSS/Deflate deutlich.
+      heatshrink hat kein hartes n+32 — random_16k expandiert auf 112%.
+    </p>
+
+    <h2>4. Flash + komprimierte Nutzdaten (M0, 16&nbsp;KiB Payload)</h2>
+    <p>Gesamt = Codec-.text + coded. Das ist die Produktfrage, nicht Flash allein.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>16&nbsp;KiB Corpus</th>
+          <th class="num">nec_lite</th>
+          <th class="num">heatshrink</th>
+          <th class="num">lz4</th>
+          <th class="num">miniz</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>ticks_16k</td><td class="num">17.564</td><td class="num">10.728</td><td class="num">16.936</td><td class="num">11.347</td></tr>
+        <tr><td>logline_16k</td><td class="num">18.436</td><td class="num">3.929</td><td class="num">6.590</td><td class="num">4.922</td></tr>
+        <tr><td>timeseries_16k</td><td class="num">18.436</td><td class="num">19.296</td><td class="num">22.938</td><td class="num">17.439</td></tr>
+        <tr><td>random_16k</td><td class="num">18.436</td><td class="num">20.629</td><td class="num">22.938</td><td class="num">21.223</td></tr>
+      </tbody>
+    </table>
+    <p class="note">Byte, kleiner ist besser. heatshrink/miniz gewinnen, sobald LZSS/Deflate greift. nec_lite gewinnt nur auf Incompressibility (Bound) und knapp auf AR(1)-int16 vs. heatshrink.</p>
+
+    <h2>5. Was gilt / was nicht</h2>
+    <div class="cols">
+      <div class="box">
+        <h3 class="ok">Was gilt</h3>
+        <ul>
+          <li>Kein malloc im Kernel. Harte Grenze n+32.</li>
+          <li>Flash in heatshrink-Größenordnung, klar unter lz4/miniz.</li>
+          <li>Delta-Frontend kann auf kurzen int16-Läufen schlagen (harness128).</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3 class="warn">Was nicht gilt</h3>
+        <ul>
+          <li>Nicht kleiner als der Segment-Peer heatshrink in einem relevanten Sinn (11–14&nbsp;% Flash, schlechtere Ratio, kein Stream).</li>
+          <li>420&nbsp;B RAM ist nicht konstant — skaliert mit n.</li>
+          <li>Nicht auf Silizium getestet. Timing/Energie offen.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>6. Repro</h2>
+    <pre>bash nec-core/scripts/mcu_build.sh
+MCU_CPU=cortex-m0 bash nec-core/scripts/mcu_build.sh
+bash nec-core/scripts/codec_ratio.sh</pre>
+
+    <footer>
+      <div>Rev 1.1 · heatshrink als Peer · Ratio und RAM-Modell erstklassig · nicht silizium-validiert</div>
+      <div>mcu-size.json · ratio.json</div>
+    </footer>
+  </div>
+</body>
+</html>
