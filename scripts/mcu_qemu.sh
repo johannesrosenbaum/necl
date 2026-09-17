@@ -49,7 +49,7 @@ CFLAGS=(
   -mcpu=cortex-m3 -mthumb -Os
   -ffunction-sections -fdata-sections
   -fno-builtin -ffreestanding -fno-exceptions -Wall
-  -I "$ROOT/include" -I "$ROOT/native" -DNEC_LITE_CORE_ONLY -DNEC_SEMIHOST
+  -I "$ROOT/include" -I "$ROOT/native" -DNEC_LITE_CORE_ONLY -DNEC_LITE_NO_MALLOC -DNEC_SEMIHOST
 )
 mkdir -p "$OUT"
 "$CC" "${CFLAGS[@]}" -c "$ROOT/mcu/startup.c" -o "$OUT/startup_qemu.o"

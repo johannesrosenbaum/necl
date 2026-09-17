@@ -9,13 +9,17 @@
 #include "lz4.h"
 #include "miniz.h"
 #include "nec_lite.h"
+#include "proglz.h"
+#include "schulduhr.h"
 #include "sprintz_delta.h"
 
 #include <dirent.h>
 #include <math.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
@@ -279,6 +283,61 @@ fail:
     return 1;
 }
 
+static int roundtrip_schulduhr(const uint8_t *src, size_t n, size_t *coded) {
+    size_t ns = n / 2;
+    const int16_t *s = (const int16_t *)(const void *)src;
+    /* Schuld-Uhr kann auf nicht-linearen Daten expandieren — großzügiger als n*2. */
+    size_t cap = n * 4 + 256;
+    uint8_t *dst = (uint8_t *)malloc(cap);
+    int16_t *plain = (int16_t *)malloc(n ? n : 2);
+    size_t cn = 0;
+    size_t dn = 0;
+    if (!dst || !plain)
+        return 1;
+    schulduhr_stats_reset();
+    if (schulduhr_compress_i16(s, ns, dst, cap, &cn) != 0 || cn == 0)
+        goto fail;
+    if (schulduhr_decompress_i16(dst, cn, plain, ns, &dn) != 0 || dn != ns)
+        goto fail;
+    if (memcmp(plain, src, n) != 0)
+        goto fail;
+    *coded = cn;
+    free(dst);
+    free(plain);
+    return 0;
+fail:
+    free(dst);
+    free(plain);
+    return 1;
+}
+
+static int roundtrip_proglz(const uint8_t *src, size_t n, size_t *coded) {
+    size_t ns = n / 2;
+    const int16_t *s = (const int16_t *)(const void *)src;
+    size_t cap = n * 2 + 64;
+    uint8_t *dst = (uint8_t *)malloc(cap);
+    int16_t *plain = (int16_t *)malloc(n ? n : 2);
+    size_t cn = 0;
+    size_t dn = 0;
+    if (!dst || !plain)
+        return 1;
+    proglz_stats_reset();
+    if (proglz_compress_i16(s, ns, dst, cap, &cn) != 0 || cn == 0)
+        goto fail;
+    if (proglz_decompress_i16(dst, cn, plain, ns, &dn) != 0 || dn != ns)
+        goto fail;
+    if (memcmp(plain, src, n) != 0)
+        goto fail;
+    *coded = cn;
+    free(dst);
+    free(plain);
+    return 0;
+fail:
+    free(dst);
+    free(plain);
+    return 1;
+}
+
 static int one(const char *corpus, const uint8_t *src, size_t n, int fe, int numeric) {
     size_t coded;
     if (roundtrip_nec(src, n, fe, &coded) != 0) {
@@ -312,8 +371,266 @@ static int one(const char *corpus, const uint8_t *src, size_t n, int fe, int num
             return 1;
         }
         emit(corpus, "sprintz_d", n, coded);
+        if (roundtrip_proglz(src, n, &coded) != 0) {
+            fprintf(stderr, "FAIL proglz %s\n", corpus);
+            return 1;
+        }
+        emit(corpus, "proglz", n, coded);
+        if (getenv("NEC_PROGLZ_STATS")) {
+            size_t tc[4];
+            proglz_stats_get(tc);
+            fprintf(
+                stderr,
+                "  proglz_tags %s hold=%zu ramp=%zu recall=%zu raw=%zu\n",
+                corpus,
+                tc[0],
+                tc[1],
+                tc[2],
+                tc[3]
+            );
+        }
+        if (roundtrip_schulduhr(src, n, &coded) != 0) {
+            fprintf(stderr, "FAIL schulduhr %s\n", corpus);
+            return 1;
+        }
+        emit(corpus, "schulduhr", n, coded);
+        if (getenv("NEC_SCHULDUHR_STATS")) {
+            size_t tilg = 0, ticks = 0;
+            schulduhr_stats_get(&tilg, &ticks);
+            fprintf(stderr, "  schulduhr %s tilg=%zu tick_samples=%zu\n", corpus, tilg, ticks);
+        }
     }
     return 0;
+}
+
+#define TIMING_LOOPS 40
+#define TIMING_WARM  4
+
+static uint64_t ns_now(void) {
+    struct timespec ts;
+    clock_gettime(CLOCK_MONOTONIC, &ts);
+    return (uint64_t)ts.tv_sec * 1000000000ull + (uint64_t)ts.tv_nsec;
+}
+
+static int cmp_u64(const void *a, const void *b) {
+    uint64_t x = *(const uint64_t *)a;
+    uint64_t y = *(const uint64_t *)b;
+    return (x > y) - (x < y);
+}
+
+static uint64_t median_u64(uint64_t *v, int n) {
+    qsort(v, (size_t)n, sizeof *v, cmp_u64);
+    return v[n / 2];
+}
+
+typedef int (*timed_fn)(const uint8_t *, size_t, size_t *, uint64_t *, uint64_t *);
+
+static int time_codec(
+    const char *name,
+    const uint8_t *src,
+    size_t n,
+    timed_fn encdec,
+    FILE *jf,
+    int *first
+) {
+    uint64_t enc_s[TIMING_LOOPS];
+    uint64_t dec_s[TIMING_LOOPS];
+    size_t coded = 0;
+    int i;
+    for (i = 0; i < TIMING_WARM; i++) {
+        uint64_t e, d;
+        if (encdec(src, n, &coded, &e, &d) != 0)
+            return 1;
+    }
+    for (i = 0; i < TIMING_LOOPS; i++) {
+        if (encdec(src, n, &coded, &enc_s[i], &dec_s[i]) != 0)
+            return 1;
+    }
+    {
+        uint64_t em = median_u64(enc_s, TIMING_LOOPS);
+        uint64_t dm = median_u64(dec_s, TIMING_LOOPS);
+        double mb = (double)n / (1024.0 * 1024.0);
+        double emb = em > 0 ? mb / ((double)em / 1e9) : 0.0;
+        double dmb = dm > 0 ? mb / ((double)dm / 1e9) : 0.0;
+        printf(
+            "TIMING %-12s coded=%zu enc_ns=%llu dec_ns=%llu enc_MB/s=%.1f dec_MB/s=%.1f\n",
+            name,
+            coded,
+            (unsigned long long)em,
+            (unsigned long long)dm,
+            emb,
+            dmb
+        );
+        if (jf) {
+            fprintf(
+                jf,
+                "%s{\"codec\":\"%s\",\"orig\":%zu,\"coded\":%zu,"
+                "\"enc_ns_med\":%llu,\"dec_ns_med\":%llu,"
+                "\"enc_mb_s\":%.2f,\"dec_mb_s\":%.2f}",
+                *first ? "" : ",",
+                name,
+                n,
+                coded,
+                (unsigned long long)em,
+                (unsigned long long)dm,
+                emb,
+                dmb
+            );
+            *first = 0;
+        }
+    }
+    return 0;
+}
+
+static int timed_nec(const uint8_t *src, size_t n, size_t *coded, uint64_t *enc_ns, uint64_t *dec_ns) {
+    size_t bound = nec_lite_compress_bound(n);
+    uint8_t *dst = (uint8_t *)malloc(bound);
+    uint8_t *plain = (uint8_t *)malloc(n ? n : 1);
+    size_t clen = bound;
+    size_t dlen = n;
+    uint64_t t0, t1;
+    int rc;
+    if (!dst || !plain)
+        return 1;
+    t0 = ns_now();
+    rc = nec_lite_compress(src, n, dst, &clen, NULL, 0, NEC_LITE_FE_I16);
+    t1 = ns_now();
+    *enc_ns = t1 - t0;
+    if (rc != NEC_OK)
+        goto fail;
+    t0 = ns_now();
+    rc = nec_lite_decompress(dst, clen, plain, &dlen, NULL, 0);
+    t1 = ns_now();
+    *dec_ns = t1 - t0;
+    if (rc != NEC_OK || dlen != n || memcmp(plain, src, n) != 0)
+        goto fail;
+    *coded = clen;
+    free(dst);
+    free(plain);
+    return 0;
+fail:
+    free(dst);
+    free(plain);
+    return 1;
+}
+
+static int timed_lz4(const uint8_t *src, size_t n, size_t *coded, uint64_t *enc_ns, uint64_t *dec_ns) {
+    int bound = LZ4_compressBound((int)n);
+    char *dst = (char *)malloc((size_t)bound);
+    char *plain = (char *)malloc(n ? n : 1);
+    int cn, dn;
+    uint64_t t0, t1;
+    if (!dst || !plain)
+        return 1;
+    t0 = ns_now();
+    cn = LZ4_compress_default((const char *)src, dst, (int)n, bound);
+    t1 = ns_now();
+    *enc_ns = t1 - t0;
+    if (cn <= 0)
+        goto fail;
+    t0 = ns_now();
+    dn = LZ4_decompress_safe(dst, plain, cn, (int)n);
+    t1 = ns_now();
+    *dec_ns = t1 - t0;
+    if (dn != (int)n || memcmp(plain, src, n) != 0)
+        goto fail;
+    *coded = (size_t)cn;
+    free(dst);
+    free(plain);
+    return 0;
+fail:
+    free(dst);
+    free(plain);
+    return 1;
+}
+
+static int timed_hs(const uint8_t *src, size_t n, size_t *coded, uint64_t *enc_ns, uint64_t *dec_ns) {
+    static heatshrink_encoder enc;
+    static heatshrink_decoder dec;
+    size_t cap = n * 2 + 64;
+    uint8_t *dst = (uint8_t *)malloc(cap);
+    uint8_t *plain = (uint8_t *)malloc(n ? n : 1);
+    size_t cn = 0, dn = 0;
+    uint64_t t0, t1;
+    if (!dst || !plain)
+        return 1;
+    t0 = ns_now();
+    if (hs_compress_mem(&enc, src, n, dst, cap, &cn) != 0 || cn == 0)
+        goto fail;
+    t1 = ns_now();
+    *enc_ns = t1 - t0;
+    t0 = ns_now();
+    if (hs_decompress_mem(&dec, dst, cn, plain, n, &dn) != 0 || dn != n || memcmp(plain, src, n) != 0)
+        goto fail;
+    t1 = ns_now();
+    *dec_ns = t1 - t0;
+    *coded = cn;
+    free(dst);
+    free(plain);
+    return 0;
+fail:
+    free(dst);
+    free(plain);
+    return 1;
+}
+
+static int timed_sprintz(const uint8_t *src, size_t n, size_t *coded, uint64_t *enc_ns, uint64_t *dec_ns) {
+    size_t ns = n / 2;
+    const int16_t *s = (const int16_t *)(const void *)src;
+    size_t cap = n * 2 + 64;
+    uint8_t *dst = (uint8_t *)malloc(cap);
+    int16_t *plain = (int16_t *)malloc(n ? n : 2);
+    size_t cn = 0, dn = 0;
+    uint64_t t0, t1;
+    if (!dst || !plain)
+        return 1;
+    t0 = ns_now();
+    if (sprintz_delta_compress_i16(s, ns, 1, dst, cap, &cn) != 0 || cn == 0)
+        goto fail;
+    t1 = ns_now();
+    *enc_ns = t1 - t0;
+    t0 = ns_now();
+    if (sprintz_delta_decompress_i16(dst, cn, 1, plain, ns, &dn) != 0 || dn != ns)
+        goto fail;
+    t1 = ns_now();
+    *dec_ns = t1 - t0;
+    if (memcmp(plain, s, n) != 0)
+        goto fail;
+    *coded = cn;
+    free(dst);
+    free(plain);
+    return 0;
+fail:
+    free(dst);
+    free(plain);
+    return 1;
+}
+
+static int run_host_timing(const uint8_t *src, size_t n) {
+    const char *out = getenv("NEC_HOST_TIMING_JSON");
+    FILE *jf = NULL;
+    int first = 1;
+    int rc = 0;
+    if (!out || !out[0])
+        out = "build/mcu/host-timing.json";
+    jf = fopen(out, "w");
+    if (jf)
+        fprintf(jf, "{\"corpus\":\"timeseries_16k\",\"n\":%zu,\"loops\":%d,\"rows\":[", n, TIMING_LOOPS);
+    printf("\n# Host timing proxy (median of %d loops, warmup %d) n=%zu\n", TIMING_LOOPS, TIMING_WARM, n);
+    if (time_codec("nec_lite", src, n, timed_nec, jf, &first) != 0)
+        rc = 1;
+    if (time_codec("heatshrink", src, n, timed_hs, jf, &first) != 0)
+        rc = 1;
+    if (time_codec("lz4", src, n, timed_lz4, jf, &first) != 0)
+        rc = 1;
+    if (time_codec("sprintz_d", src, n, timed_sprintz, jf, &first) != 0)
+        rc = 1;
+    if (jf) {
+        fprintf(jf, "],\"tsz\":\"skipped_no_cargo\"}\n");
+        fclose(jf);
+        printf("wrote %s\n", out);
+    }
+    return rc;
 }
 
 int main(void) {
@@ -405,6 +722,22 @@ int main(void) {
             }
             closedir(dir);
         }
+    }
+
+    {
+        uint8_t *tbuf;
+        size_t tn;
+        tbuf = gen_i16(8192, &tn);
+        if (!tbuf)
+            return 1;
+        /* 16 KiB Proxy = erste 16384 Byte der AR(1)-Serie */
+        if (tn > 16384)
+            tn = 16384;
+        if (run_host_timing(tbuf, tn) != 0) {
+            free(tbuf);
+            return 1;
+        }
+        free(tbuf);
     }
 
     return 0;

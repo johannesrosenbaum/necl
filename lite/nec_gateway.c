@@ -156,20 +156,31 @@ int main(int argc, char **argv) {
 
     if (eq(cmd, "decompress") || eq(cmd, "d")) {
         NecLiteHeader h;
-        rc = nec_lite_parse_header(src, n, &h);
-        if (rc != NEC_OK) {
-            fprintf(stderr, "header: %s\n", nec_lite_strerror(rc));
-            free(src);
-            return 1;
+        if (n > 0 && (src[0] == NEC_LITE_COMPACT_DELTA || src[0] == NEC_LITE_COMPACT_FIRE ||
+                      src[0] == NEC_LITE_COMPACT_LZ)) {
+            if (n < (size_t)NEC_LITE_COMPACT_HEAD) {
+                fprintf(stderr, "header: truncated compact\n");
+                free(src);
+                return 1;
+            }
+            cap = (size_t)src[1] | ((size_t)src[2] << 8) | ((size_t)src[3] << 16) |
+                  ((size_t)src[4] << 24);
+        } else {
+            rc = nec_lite_parse_header(src, n, &h);
+            if (rc != NEC_OK) {
+                fprintf(stderr, "header: %s\n", nec_lite_strerror(rc));
+                free(src);
+                return 1;
+            }
+            cap = (size_t)h.orig_len;
+            if (cap == 0 && (h.flags & NEC_LITE_FLAG_STREAM) && n >= (size_t)NEC_HEADER_SIZE + 13u)
+                cap = (size_t)(
+                    (uint64_t)src[n - 12] | ((uint64_t)src[n - 11] << 8) |
+                    ((uint64_t)src[n - 10] << 16) | ((uint64_t)src[n - 9] << 24) |
+                    ((uint64_t)src[n - 8] << 32) | ((uint64_t)src[n - 7] << 40) |
+                    ((uint64_t)src[n - 6] << 48) | ((uint64_t)src[n - 5] << 56)
+                );
         }
-        cap = (size_t)h.orig_len;
-        if (cap == 0 && (h.flags & NEC_LITE_FLAG_STREAM) && n >= (size_t)NEC_HEADER_SIZE + 13u)
-            cap = (size_t)(
-                (uint64_t)src[n - 12] | ((uint64_t)src[n - 11] << 8) | ((uint64_t)src[n - 10] << 16) |
-                ((uint64_t)src[n - 9] << 24) | ((uint64_t)src[n - 8] << 32) |
-                ((uint64_t)src[n - 7] << 40) | ((uint64_t)src[n - 6] << 48) |
-                ((uint64_t)src[n - 5] << 56)
-            );
         dst = (uint8_t *)malloc(cap ? cap : 1);
         if (!dst) {
             free(src);

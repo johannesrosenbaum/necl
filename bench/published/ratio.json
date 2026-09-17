@@ -1,0 +1,1046 @@
+{
+  "rows": [
+    {
+      "corpus": "harness128",
+      "codec": "nec_lite",
+      "orig": 128,
+      "coded": 106,
+      "ratio": "82.8%"
+    },
+    {
+      "corpus": "harness128",
+      "codec": "heatshrink",
+      "orig": 128,
+      "coded": 144,
+      "ratio": "112.5%"
+    },
+    {
+      "corpus": "harness128",
+      "codec": "lz4",
+      "orig": 128,
+      "coded": 130,
+      "ratio": "101.6%"
+    },
+    {
+      "corpus": "harness128",
+      "codec": "miniz",
+      "orig": 128,
+      "coded": 139,
+      "ratio": "108.6%"
+    },
+    {
+      "corpus": "harness128",
+      "codec": "drh",
+      "orig": 128,
+      "coded": 15,
+      "ratio": "11.7%"
+    },
+    {
+      "corpus": "harness128",
+      "codec": "sprintz_d",
+      "orig": 128,
+      "coded": 106,
+      "ratio": "82.8%"
+    },
+    {
+      "corpus": "harness128",
+      "codec": "proglz",
+      "orig": 128,
+      "coded": 111,
+      "ratio": "86.7%"
+    },
+    {
+      "corpus": "harness128",
+      "codec": "schulduhr",
+      "orig": 128,
+      "coded": 36,
+      "ratio": "28.1%"
+    },
+    {
+      "corpus": "timeseries_i16",
+      "codec": "nec_lite",
+      "orig": 160000,
+      "coded": 93932,
+      "ratio": "58.7%"
+    },
+    {
+      "corpus": "timeseries_i16",
+      "codec": "heatshrink",
+      "orig": 160000,
+      "coded": 166699,
+      "ratio": "104.2%"
+    },
+    {
+      "corpus": "timeseries_i16",
+      "codec": "lz4",
+      "orig": 160000,
+      "coded": 160629,
+      "ratio": "100.4%"
+    },
+    {
+      "corpus": "timeseries_i16",
+      "codec": "miniz",
+      "orig": 160000,
+      "coded": 121671,
+      "ratio": "76.0%"
+    },
+    {
+      "corpus": "timeseries_i16",
+      "codec": "drh",
+      "orig": 160000,
+      "coded": 119842,
+      "ratio": "74.9%"
+    },
+    {
+      "corpus": "timeseries_i16",
+      "codec": "sprintz_d",
+      "orig": 160000,
+      "coded": 93932,
+      "ratio": "58.7%"
+    },
+    {
+      "corpus": "timeseries_i16",
+      "codec": "proglz",
+      "orig": 160000,
+      "coded": 104866,
+      "ratio": "65.5%"
+    },
+    {
+      "corpus": "timeseries_i16",
+      "codec": "schulduhr",
+      "orig": 160000,
+      "coded": 408694,
+      "ratio": "255.4%"
+    },
+    {
+      "corpus": "timeseries_16k",
+      "codec": "nec_lite",
+      "orig": 16384,
+      "coded": 9627,
+      "ratio": "58.8%"
+    },
+    {
+      "corpus": "timeseries_16k",
+      "codec": "heatshrink",
+      "orig": 16384,
+      "coded": 17060,
+      "ratio": "104.1%"
+    },
+    {
+      "corpus": "timeseries_16k",
+      "codec": "lz4",
+      "orig": 16384,
+      "coded": 16450,
+      "ratio": "100.4%"
+    },
+    {
+      "corpus": "timeseries_16k",
+      "codec": "miniz",
+      "orig": 16384,
+      "coded": 12611,
+      "ratio": "77.0%"
+    },
+    {
+      "corpus": "timeseries_16k",
+      "codec": "drh",
+      "orig": 16384,
+      "coded": 12273,
+      "ratio": "74.9%"
+    },
+    {
+      "corpus": "timeseries_16k",
+      "codec": "sprintz_d",
+      "orig": 16384,
+      "coded": 9627,
+      "ratio": "58.8%"
+    },
+    {
+      "corpus": "timeseries_16k",
+      "codec": "proglz",
+      "orig": 16384,
+      "coded": 10771,
+      "ratio": "65.7%"
+    },
+    {
+      "corpus": "timeseries_16k",
+      "codec": "schulduhr",
+      "orig": 16384,
+      "coded": 41852,
+      "ratio": "255.4%"
+    },
+    {
+      "corpus": "ticks",
+      "codec": "nec_lite",
+      "orig": 144000,
+      "coded": 35257,
+      "ratio": "24.5%"
+    },
+    {
+      "corpus": "ticks",
+      "codec": "heatshrink",
+      "orig": 144000,
+      "coded": 73769,
+      "ratio": "51.2%"
+    },
+    {
+      "corpus": "ticks",
+      "codec": "lz4",
+      "orig": 144000,
+      "coded": 86175,
+      "ratio": "59.8%"
+    },
+    {
+      "corpus": "ticks",
+      "codec": "miniz",
+      "orig": 144000,
+      "coded": 57681,
+      "ratio": "40.1%"
+    },
+    {
+      "corpus": "ticks_16k",
+      "codec": "nec_lite",
+      "orig": 16384,
+      "coded": 4027,
+      "ratio": "24.6%"
+    },
+    {
+      "corpus": "ticks_16k",
+      "codec": "heatshrink",
+      "orig": 16384,
+      "coded": 8492,
+      "ratio": "51.8%"
+    },
+    {
+      "corpus": "ticks_16k",
+      "codec": "lz4",
+      "orig": 16384,
+      "coded": 10448,
+      "ratio": "63.8%"
+    },
+    {
+      "corpus": "ticks_16k",
+      "codec": "miniz",
+      "orig": 16384,
+      "coded": 6519,
+      "ratio": "39.8%"
+    },
+    {
+      "corpus": "logline_16k",
+      "codec": "nec_lite",
+      "orig": 16384,
+      "coded": 9707,
+      "ratio": "59.2%"
+    },
+    {
+      "corpus": "logline_16k",
+      "codec": "heatshrink",
+      "orig": 16384,
+      "coded": 1693,
+      "ratio": "10.3%"
+    },
+    {
+      "corpus": "logline_16k",
+      "codec": "lz4",
+      "orig": 16384,
+      "coded": 102,
+      "ratio": "0.6%"
+    },
+    {
+      "corpus": "logline_16k",
+      "codec": "miniz",
+      "orig": 16384,
+      "coded": 94,
+      "ratio": "0.6%"
+    },
+    {
+      "corpus": "random_16k",
+      "codec": "nec_lite",
+      "orig": 16384,
+      "coded": 16544,
+      "ratio": "101.0%"
+    },
+    {
+      "corpus": "random_16k",
+      "codec": "heatshrink",
+      "orig": 16384,
+      "coded": 18393,
+      "ratio": "112.3%"
+    },
+    {
+      "corpus": "random_16k",
+      "codec": "lz4",
+      "orig": 16384,
+      "coded": 16450,
+      "ratio": "100.4%"
+    },
+    {
+      "corpus": "random_16k",
+      "codec": "miniz",
+      "orig": 16384,
+      "coded": 16395,
+      "ratio": "100.1%"
+    },
+    {
+      "corpus": "nab_machine_temp.i16le",
+      "codec": "nec_lite",
+      "orig": 45390,
+      "coded": 27017,
+      "ratio": "59.5%"
+    },
+    {
+      "corpus": "nab_machine_temp.i16le",
+      "codec": "heatshrink",
+      "orig": 45390,
+      "coded": 47060,
+      "ratio": "103.7%"
+    },
+    {
+      "corpus": "nab_machine_temp.i16le",
+      "codec": "lz4",
+      "orig": 45390,
+      "coded": 45555,
+      "ratio": "100.4%"
+    },
+    {
+      "corpus": "nab_machine_temp.i16le",
+      "codec": "miniz",
+      "orig": 45390,
+      "coded": 37150,
+      "ratio": "81.8%"
+    },
+    {
+      "corpus": "nab_machine_temp.i16le",
+      "codec": "drh",
+      "orig": 45390,
+      "coded": 34353,
+      "ratio": "75.7%"
+    },
+    {
+      "corpus": "nab_machine_temp.i16le",
+      "codec": "sprintz_d",
+      "orig": 45390,
+      "coded": 27017,
+      "ratio": "59.5%"
+    },
+    {
+      "corpus": "nab_machine_temp.i16le",
+      "codec": "proglz",
+      "orig": 45390,
+      "coded": 28920,
+      "ratio": "63.7%"
+    },
+    {
+      "corpus": "nab_machine_temp.i16le",
+      "codec": "schulduhr",
+      "orig": 45390,
+      "coded": 116067,
+      "ratio": "255.7%"
+    },
+    {
+      "corpus": "nab_ambient_temp.i16le",
+      "codec": "nec_lite",
+      "orig": 14534,
+      "coded": 8558,
+      "ratio": "58.9%"
+    },
+    {
+      "corpus": "nab_ambient_temp.i16le",
+      "codec": "heatshrink",
+      "orig": 14534,
+      "coded": 14791,
+      "ratio": "101.8%"
+    },
+    {
+      "corpus": "nab_ambient_temp.i16le",
+      "codec": "lz4",
+      "orig": 14534,
+      "coded": 14581,
+      "ratio": "100.3%"
+    },
+    {
+      "corpus": "nab_ambient_temp.i16le",
+      "codec": "miniz",
+      "orig": 14534,
+      "coded": 11169,
+      "ratio": "76.8%"
+    },
+    {
+      "corpus": "nab_ambient_temp.i16le",
+      "codec": "drh",
+      "orig": 14534,
+      "coded": 10879,
+      "ratio": "74.9%"
+    },
+    {
+      "corpus": "nab_ambient_temp.i16le",
+      "codec": "sprintz_d",
+      "orig": 14534,
+      "coded": 8558,
+      "ratio": "58.9%"
+    },
+    {
+      "corpus": "nab_ambient_temp.i16le",
+      "codec": "proglz",
+      "orig": 14534,
+      "coded": 9227,
+      "ratio": "63.5%"
+    },
+    {
+      "corpus": "nab_ambient_temp.i16le",
+      "codec": "schulduhr",
+      "orig": 14534,
+      "coded": 37142,
+      "ratio": "255.6%"
+    },
+    {
+      "corpus": "nab_ec2_cpu.i16le",
+      "codec": "nec_lite",
+      "orig": 8064,
+      "coded": 1540,
+      "ratio": "19.1%"
+    },
+    {
+      "corpus": "nab_ec2_cpu.i16le",
+      "codec": "heatshrink",
+      "orig": 8064,
+      "coded": 1173,
+      "ratio": "14.5%"
+    },
+    {
+      "corpus": "nab_ec2_cpu.i16le",
+      "codec": "lz4",
+      "orig": 8064,
+      "coded": 3499,
+      "ratio": "43.4%"
+    },
+    {
+      "corpus": "nab_ec2_cpu.i16le",
+      "codec": "miniz",
+      "orig": 8064,
+      "coded": 986,
+      "ratio": "12.2%"
+    },
+    {
+      "corpus": "nab_ec2_cpu.i16le",
+      "codec": "drh",
+      "orig": 8064,
+      "coded": 3853,
+      "ratio": "47.8%"
+    },
+    {
+      "corpus": "nab_ec2_cpu.i16le",
+      "codec": "sprintz_d",
+      "orig": 8064,
+      "coded": 2478,
+      "ratio": "30.7%"
+    },
+    {
+      "corpus": "nab_ec2_cpu.i16le",
+      "codec": "proglz",
+      "orig": 8064,
+      "coded": 2598,
+      "ratio": "32.2%"
+    },
+    {
+      "corpus": "nab_ec2_cpu.i16le",
+      "codec": "schulduhr",
+      "orig": 8064,
+      "coded": 15217,
+      "ratio": "188.7%"
+    },
+    {
+      "corpus": "melbourne_daily_min_temp.i16le",
+      "codec": "nec_lite",
+      "orig": 7300,
+      "coded": 5021,
+      "ratio": "68.8%"
+    },
+    {
+      "corpus": "melbourne_daily_min_temp.i16le",
+      "codec": "heatshrink",
+      "orig": 7300,
+      "coded": 6562,
+      "ratio": "89.9%"
+    },
+    {
+      "corpus": "melbourne_daily_min_temp.i16le",
+      "codec": "lz4",
+      "orig": 7300,
+      "coded": 7013,
+      "ratio": "96.1%"
+    },
+    {
+      "corpus": "melbourne_daily_min_temp.i16le",
+      "codec": "miniz",
+      "orig": 7300,
+      "coded": 4944,
+      "ratio": "67.7%"
+    },
+    {
+      "corpus": "melbourne_daily_min_temp.i16le",
+      "codec": "drh",
+      "orig": 7300,
+      "coded": 5852,
+      "ratio": "80.2%"
+    },
+    {
+      "corpus": "melbourne_daily_min_temp.i16le",
+      "codec": "sprintz_d",
+      "orig": 7300,
+      "coded": 5021,
+      "ratio": "68.8%"
+    },
+    {
+      "corpus": "melbourne_daily_min_temp.i16le",
+      "codec": "proglz",
+      "orig": 7300,
+      "coded": 5170,
+      "ratio": "70.8%"
+    },
+    {
+      "corpus": "melbourne_daily_min_temp.i16le",
+      "codec": "schulduhr",
+      "orig": 7300,
+      "coded": 18503,
+      "ratio": "253.5%"
+    },
+    {
+      "corpus": "intel_lab_temp.i16le",
+      "codec": "nec_lite",
+      "orig": 800000,
+      "coded": 298332,
+      "ratio": "37.3%"
+    },
+    {
+      "corpus": "intel_lab_temp.i16le",
+      "codec": "heatshrink",
+      "orig": 800000,
+      "coded": 472098,
+      "ratio": "59.0%"
+    },
+    {
+      "corpus": "intel_lab_temp.i16le",
+      "codec": "lz4",
+      "orig": 800000,
+      "coded": 539677,
+      "ratio": "67.5%"
+    },
+    {
+      "corpus": "intel_lab_temp.i16le",
+      "codec": "miniz",
+      "orig": 800000,
+      "coded": 352760,
+      "ratio": "44.1%"
+    },
+    {
+      "corpus": "intel_lab_temp.i16le",
+      "codec": "drh",
+      "orig": 800000,
+      "coded": 462228,
+      "ratio": "57.8%"
+    },
+    {
+      "corpus": "intel_lab_temp.i16le",
+      "codec": "sprintz_d",
+      "orig": 800000,
+      "coded": 387272,
+      "ratio": "48.4%"
+    },
+    {
+      "corpus": "intel_lab_temp.i16le",
+      "codec": "proglz",
+      "orig": 800000,
+      "coded": 461369,
+      "ratio": "57.7%"
+    },
+    {
+      "corpus": "intel_lab_temp.i16le",
+      "codec": "schulduhr",
+      "orig": 800000,
+      "coded": 1616574,
+      "ratio": "202.1%"
+    },
+    {
+      "corpus": "ucr_ECG200.i16le",
+      "codec": "nec_lite",
+      "orig": 38400,
+      "coded": 32949,
+      "ratio": "85.8%"
+    },
+    {
+      "corpus": "ucr_ECG200.i16le",
+      "codec": "heatshrink",
+      "orig": 38400,
+      "coded": 42964,
+      "ratio": "111.9%"
+    },
+    {
+      "corpus": "ucr_ECG200.i16le",
+      "codec": "lz4",
+      "orig": 38400,
+      "coded": 38552,
+      "ratio": "100.4%"
+    },
+    {
+      "corpus": "ucr_ECG200.i16le",
+      "codec": "miniz",
+      "orig": 38400,
+      "coded": 37435,
+      "ratio": "97.5%"
+    },
+    {
+      "corpus": "ucr_ECG200.i16le",
+      "codec": "drh",
+      "orig": 38400,
+      "coded": 35917,
+      "ratio": "93.5%"
+    },
+    {
+      "corpus": "ucr_ECG200.i16le",
+      "codec": "sprintz_d",
+      "orig": 38400,
+      "coded": 33011,
+      "ratio": "86.0%"
+    },
+    {
+      "corpus": "ucr_ECG200.i16le",
+      "codec": "proglz",
+      "orig": 38400,
+      "coded": 36696,
+      "ratio": "95.6%"
+    },
+    {
+      "corpus": "ucr_ECG200.i16le",
+      "codec": "schulduhr",
+      "orig": 38400,
+      "coded": 98391,
+      "ratio": "256.2%"
+    },
+    {
+      "corpus": "ucr_Coffee.i16le",
+      "codec": "nec_lite",
+      "orig": 32032,
+      "coded": 23848,
+      "ratio": "74.5%"
+    },
+    {
+      "corpus": "ucr_Coffee.i16le",
+      "codec": "heatshrink",
+      "orig": 32032,
+      "coded": 35917,
+      "ratio": "112.1%"
+    },
+    {
+      "corpus": "ucr_Coffee.i16le",
+      "codec": "lz4",
+      "orig": 32032,
+      "coded": 32159,
+      "ratio": "100.4%"
+    },
+    {
+      "corpus": "ucr_Coffee.i16le",
+      "codec": "miniz",
+      "orig": 32032,
+      "coded": 31748,
+      "ratio": "99.1%"
+    },
+    {
+      "corpus": "ucr_Coffee.i16le",
+      "codec": "drh",
+      "orig": 32032,
+      "coded": 28253,
+      "ratio": "88.2%"
+    },
+    {
+      "corpus": "ucr_Coffee.i16le",
+      "codec": "sprintz_d",
+      "orig": 32032,
+      "coded": 25233,
+      "ratio": "78.8%"
+    },
+    {
+      "corpus": "ucr_Coffee.i16le",
+      "codec": "proglz",
+      "orig": 32032,
+      "coded": 29988,
+      "ratio": "93.6%"
+    },
+    {
+      "corpus": "ucr_Coffee.i16le",
+      "codec": "schulduhr",
+      "orig": 32032,
+      "coded": 81791,
+      "ratio": "255.3%"
+    },
+    {
+      "corpus": "ucr_ItalyPowerDemand.i16le",
+      "codec": "nec_lite",
+      "orig": 52608,
+      "coded": 50078,
+      "ratio": "95.2%"
+    },
+    {
+      "corpus": "ucr_ItalyPowerDemand.i16le",
+      "codec": "heatshrink",
+      "orig": 52608,
+      "coded": 56838,
+      "ratio": "108.0%"
+    },
+    {
+      "corpus": "ucr_ItalyPowerDemand.i16le",
+      "codec": "lz4",
+      "orig": 52608,
+      "coded": 52815,
+      "ratio": "100.4%"
+    },
+    {
+      "corpus": "ucr_ItalyPowerDemand.i16le",
+      "codec": "miniz",
+      "orig": 52608,
+      "coded": 51575,
+      "ratio": "98.0%"
+    },
+    {
+      "corpus": "ucr_ItalyPowerDemand.i16le",
+      "codec": "drh",
+      "orig": 52608,
+      "coded": 52149,
+      "ratio": "99.1%"
+    },
+    {
+      "corpus": "ucr_ItalyPowerDemand.i16le",
+      "codec": "sprintz_d",
+      "orig": 52608,
+      "coded": 50740,
+      "ratio": "96.4%"
+    },
+    {
+      "corpus": "ucr_ItalyPowerDemand.i16le",
+      "codec": "proglz",
+      "orig": 52608,
+      "coded": 53241,
+      "ratio": "101.2%"
+    },
+    {
+      "corpus": "ucr_ItalyPowerDemand.i16le",
+      "codec": "schulduhr",
+      "orig": 52608,
+      "coded": 132084,
+      "ratio": "251.1%"
+    },
+    {
+      "corpus": "ucr_MoteStrain.i16le",
+      "codec": "nec_lite",
+      "orig": 213696,
+      "coded": 159970,
+      "ratio": "74.9%"
+    },
+    {
+      "corpus": "ucr_MoteStrain.i16le",
+      "codec": "heatshrink",
+      "orig": 213696,
+      "coded": 233550,
+      "ratio": "109.3%"
+    },
+    {
+      "corpus": "ucr_MoteStrain.i16le",
+      "codec": "lz4",
+      "orig": 213696,
+      "coded": 213063,
+      "ratio": "99.7%"
+    },
+    {
+      "corpus": "ucr_MoteStrain.i16le",
+      "codec": "miniz",
+      "orig": 213696,
+      "coded": 195830,
+      "ratio": "91.6%"
+    },
+    {
+      "corpus": "ucr_MoteStrain.i16le",
+      "codec": "drh",
+      "orig": 213696,
+      "coded": 176993,
+      "ratio": "82.8%"
+    },
+    {
+      "corpus": "ucr_MoteStrain.i16le",
+      "codec": "sprintz_d",
+      "orig": 213696,
+      "coded": 162116,
+      "ratio": "75.9%"
+    },
+    {
+      "corpus": "ucr_MoteStrain.i16le",
+      "codec": "proglz",
+      "orig": 213696,
+      "coded": 190201,
+      "ratio": "89.0%"
+    },
+    {
+      "corpus": "ucr_MoteStrain.i16le",
+      "codec": "schulduhr",
+      "orig": 213696,
+      "coded": 539125,
+      "ratio": "252.3%"
+    },
+    {
+      "corpus": "ucr_GunPoint.i16le",
+      "codec": "nec_lite",
+      "orig": 60000,
+      "coded": 37979,
+      "ratio": "63.3%"
+    },
+    {
+      "corpus": "ucr_GunPoint.i16le",
+      "codec": "heatshrink",
+      "orig": 60000,
+      "coded": 65628,
+      "ratio": "109.4%"
+    },
+    {
+      "corpus": "ucr_GunPoint.i16le",
+      "codec": "lz4",
+      "orig": 60000,
+      "coded": 60235,
+      "ratio": "100.4%"
+    },
+    {
+      "corpus": "ucr_GunPoint.i16le",
+      "codec": "miniz",
+      "orig": 60000,
+      "coded": 57091,
+      "ratio": "95.2%"
+    },
+    {
+      "corpus": "ucr_GunPoint.i16le",
+      "codec": "drh",
+      "orig": 60000,
+      "coded": 47518,
+      "ratio": "79.2%"
+    },
+    {
+      "corpus": "ucr_GunPoint.i16le",
+      "codec": "sprintz_d",
+      "orig": 60000,
+      "coded": 39967,
+      "ratio": "66.6%"
+    },
+    {
+      "corpus": "ucr_GunPoint.i16le",
+      "codec": "proglz",
+      "orig": 60000,
+      "coded": 52356,
+      "ratio": "87.3%"
+    },
+    {
+      "corpus": "ucr_GunPoint.i16le",
+      "codec": "schulduhr",
+      "orig": 60000,
+      "coded": 152964,
+      "ratio": "254.9%"
+    },
+    {
+      "corpus": "joint_7axis_1khz_10s.i16le",
+      "codec": "nec_lite",
+      "orig": 140000,
+      "coded": 41074,
+      "ratio": "29.3%"
+    },
+    {
+      "corpus": "joint_7axis_1khz_10s.i16le",
+      "codec": "heatshrink",
+      "orig": 140000,
+      "coded": 144184,
+      "ratio": "103.0%"
+    },
+    {
+      "corpus": "joint_7axis_1khz_10s.i16le",
+      "codec": "lz4",
+      "orig": 140000,
+      "coded": 103638,
+      "ratio": "74.0%"
+    },
+    {
+      "corpus": "joint_7axis_1khz_10s.i16le",
+      "codec": "miniz",
+      "orig": 140000,
+      "coded": 77561,
+      "ratio": "55.4%"
+    },
+    {
+      "corpus": "joint_7axis_1khz_10s.i16le",
+      "codec": "drh",
+      "orig": 140000,
+      "coded": 80284,
+      "ratio": "57.3%"
+    },
+    {
+      "corpus": "joint_7axis_1khz_10s.i16le",
+      "codec": "sprintz_d",
+      "orig": 140000,
+      "coded": 44071,
+      "ratio": "31.5%"
+    },
+    {
+      "corpus": "joint_7axis_1khz_10s.i16le",
+      "codec": "proglz",
+      "orig": 140000,
+      "coded": 57370,
+      "ratio": "41.0%"
+    },
+    {
+      "corpus": "joint_7axis_1khz_10s.i16le",
+      "codec": "schulduhr",
+      "orig": 140000,
+      "coded": 321826,
+      "ratio": "229.9%"
+    }
+  ],
+  "flash_plus_payload_m0": [
+    {
+      "corpus": "timeseries_16k",
+      "codec": "nec_lite",
+      "orig": 16384,
+      "coded": 9627,
+      "ratio": "58.8%",
+      "flash_m0": 5384,
+      "flash_plus_coded": 15011
+    },
+    {
+      "corpus": "timeseries_16k",
+      "codec": "heatshrink",
+      "orig": 16384,
+      "coded": 17060,
+      "ratio": "104.1%",
+      "flash_m0": 2236,
+      "flash_plus_coded": 19296
+    },
+    {
+      "corpus": "timeseries_16k",
+      "codec": "lz4",
+      "orig": 16384,
+      "coded": 16450,
+      "ratio": "100.4%",
+      "flash_m0": 6488,
+      "flash_plus_coded": 22938
+    },
+    {
+      "corpus": "timeseries_16k",
+      "codec": "miniz",
+      "orig": 16384,
+      "coded": 12611,
+      "ratio": "77.0%",
+      "flash_m0": 4828,
+      "flash_plus_coded": 17439
+    },
+    {
+      "corpus": "ticks_16k",
+      "codec": "nec_lite",
+      "orig": 16384,
+      "coded": 4027,
+      "ratio": "24.6%",
+      "flash_m0": 5384,
+      "flash_plus_coded": 9411
+    },
+    {
+      "corpus": "ticks_16k",
+      "codec": "heatshrink",
+      "orig": 16384,
+      "coded": 8492,
+      "ratio": "51.8%",
+      "flash_m0": 2236,
+      "flash_plus_coded": 10728
+    },
+    {
+      "corpus": "ticks_16k",
+      "codec": "lz4",
+      "orig": 16384,
+      "coded": 10448,
+      "ratio": "63.8%",
+      "flash_m0": 6488,
+      "flash_plus_coded": 16936
+    },
+    {
+      "corpus": "ticks_16k",
+      "codec": "miniz",
+      "orig": 16384,
+      "coded": 6519,
+      "ratio": "39.8%",
+      "flash_m0": 4828,
+      "flash_plus_coded": 11347
+    },
+    {
+      "corpus": "logline_16k",
+      "codec": "nec_lite",
+      "orig": 16384,
+      "coded": 9707,
+      "ratio": "59.2%",
+      "flash_m0": 5384,
+      "flash_plus_coded": 15091
+    },
+    {
+      "corpus": "logline_16k",
+      "codec": "heatshrink",
+      "orig": 16384,
+      "coded": 1693,
+      "ratio": "10.3%",
+      "flash_m0": 2236,
+      "flash_plus_coded": 3929
+    },
+    {
+      "corpus": "logline_16k",
+      "codec": "lz4",
+      "orig": 16384,
+      "coded": 102,
+      "ratio": "0.6%",
+      "flash_m0": 6488,
+      "flash_plus_coded": 6590
+    },
+    {
+      "corpus": "logline_16k",
+      "codec": "miniz",
+      "orig": 16384,
+      "coded": 94,
+      "ratio": "0.6%",
+      "flash_m0": 4828,
+      "flash_plus_coded": 4922
+    },
+    {
+      "corpus": "random_16k",
+      "codec": "nec_lite",
+      "orig": 16384,
+      "coded": 16544,
+      "ratio": "101.0%",
+      "flash_m0": 5384,
+      "flash_plus_coded": 21928
+    },
+    {
+      "corpus": "random_16k",
+      "codec": "heatshrink",
+      "orig": 16384,
+      "coded": 18393,
+      "ratio": "112.3%",
+      "flash_m0": 2236,
+      "flash_plus_coded": 20629
+    },
+    {
+      "corpus": "random_16k",
+      "codec": "lz4",
+      "orig": 16384,
+      "coded": 16450,
+      "ratio": "100.4%",
+      "flash_m0": 6488,
+      "flash_plus_coded": 22938
+    },
+    {
+      "corpus": "random_16k",
+      "codec": "miniz",
+      "orig": 16384,
+      "coded": 16395,
+      "ratio": "100.1%",
+      "flash_m0": 4828,
+      "flash_plus_coded": 21223
+    }
+  ]
+}

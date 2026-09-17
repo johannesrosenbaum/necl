@@ -33,6 +33,7 @@ static int roundtrip(const uint8_t *src, size_t n, int fe) {
     size_t dlen = n;
     NecLiteHeader h;
     int rc;
+    int compact;
     if (!dst || !back)
         return fail("malloc");
     rc = nec_lite_compress(src, n, dst, &clen, NULL, 0, fe);
@@ -40,10 +41,14 @@ static int roundtrip(const uint8_t *src, size_t n, int fe) {
         return fail("compress");
     if (clen > nec_lite_compress_bound(n))
         return fail("bound violated");
-    if (nec_lite_parse_header(dst, clen, &h) != NEC_OK)
-        return fail("parse");
-    if (n > 0 && !(h.flags & NEC_LITE_FLAG_STREAM))
-        return fail("expected FLAG_STREAM");
+    compact = (clen > 0 && (dst[0] == NEC_LITE_COMPACT_DELTA || dst[0] == NEC_LITE_COMPACT_FIRE ||
+                            dst[0] == NEC_LITE_COMPACT_LZ));
+    if (!compact) {
+        if (nec_lite_parse_header(dst, clen, &h) != NEC_OK)
+            return fail("parse");
+        if (n > 0 && !(h.flags & NEC_LITE_FLAG_STREAM))
+            return fail("expected FLAG_STREAM");
+    }
     dlen = n;
     rc = nec_lite_decompress(dst, clen, back, &dlen, NULL, 0);
     if (rc != NEC_OK)

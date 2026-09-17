@@ -56,6 +56,7 @@ CFLAGS=(
   -I "$ROOT/native"
   -I "$VENDOR"
   -DNEC_LITE_CORE_ONLY
+  -DNEC_LITE_NO_MALLOC
 )
 
 fetch() {

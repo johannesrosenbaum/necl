@@ -1,44 +1,51 @@
 # NECL (`nec_lite`)
 
-Freestanding **C** codec for small MCUs (Cortex-M0/M3): delta frontend + adaptive
-nibble range coder, stream + block APIs, **no malloc in the library**.
+Freestanding **C** codec for small MCUs (Cortex-M0/M3): delta / FIRE frontend,
+stream bitpack (+ host choose-best), **no library malloc** on the device path.
 
-Peer in the flash segment is **[heatshrink](https://github.com/atomicobject/heatshrink)** —
-not lz4/zstd. NECL is an honest **MCU byte container** for int16 / tick-like
-streams, not a claim to beat Sprintz or general LZ on every corpus.
+Lab peers: **[heatshrink](https://github.com/atomicobject/heatshrink)**, Sprintz-delta
+(scalar), lz4, miniz. NECL is an **MCU-oriented byte container** for smooth int16 /
+tick-like streams — not a general LZ replacement.
 
 | | |
 |---|---|
 | Language | C11, freestanding-friendly |
 | `weight_id` | `NECL` (`0x4E45434C`) |
-| Library heap | 0 |
-| License | MIT |
+| Library heap | 0 (`NEC_LITE_NO_MALLOC`) |
+| License | **MIT** |
+
+## Two builds (important)
+
+| Label | Flag | Use |
+|-------|------|-----|
+| **Deployable** | `-DNEC_LITE_NO_MALLOC` | Board/SDK claims |
+| **Host** | default | Gateway choose-best (`0xCE`/`0xCF`/`0xCB`, stream+RC) |
+
+Cite board numbers from the **Deployable** column only:
+[`bench/published/SUMMARY.md`](bench/published/SUMMARY.md).
 
 ## What you get
 
-- `nec_lite` encoder/decoder + delta frontend
+- `nec_lite` encoder/decoder + delta/FIRE frontends
 - Stream API (`nec_lite_enc_push` / finish) and block API
 - Host tests + `nec-gateway` CLI
-- Ratio harness vs heatshrink / lz4 / miniz / DRH / Sprintz-delta (scalar)
-- MCU size scripts (fetches xpack `arm-none-eabi-gcc` locally, no sudo)
-- Technical datasheet: [`docs/NECL_Technical_Datasheet.html`](docs/NECL_Technical_Datasheet.html)
+- Ratio / ablation / MCU size harnesses
+- Published benches + methodology ([`docs/BENCH.md`](docs/BENCH.md))
 
 ## What this is not
 
-- **Not NEC2** (host hybrid / Mojo) — separate product
-- Not a lossless Sprintz replacement on UCR / smooth AR temperature series
-- Flash is in the same ballpark as heatshrink; heatshrink often wins ratio and
-  constant window-RAM tradeoffs
+- **Not NEC2** (Mojo host hybrid) — separate experiment
+- Not “always better than heatshrink/miniz” (plateau corpora differ)
+- Host compact/LZ ratios are **not** the flashed MCU path
 
 ## Quick start (host)
 
 ```bash
-# Roundtrip tests + gateway binary
 bash scripts/test_lite.sh
 
-# Optional: download public sensor corpora, then ratio table
+# Optional corpora + full publishable snapshot
 bash scripts/fetch_sensor_data.sh   # network
-bash scripts/codec_ratio.sh
+bash scripts/publish_bench.sh       # → bench/published/
 ```
 
 Minimal embed:
@@ -50,36 +57,27 @@ size_t out = nec_lite_compress_bound(n);
 nec_lite_compress(src, n, dst, &out, NULL, 0, NEC_LITE_FE_I16);
 ```
 
-Stream sketch:
-
-```c
-nec_lite_enc_t enc;
-nec_lite_enc_init(&enc, NEC_LITE_FE_I16, sink, ctx);
-nec_lite_enc_push(&enc, samples, n);
-nec_lite_enc_finish(&enc);
-```
-
-## MCU flash compare
+## MCU flash
 
 ```bash
-# Needs curl; downloads xpack toolchain into build/toolchains/ if missing
 bash scripts/mcu_build.sh
 # MCU_CPU=cortex-m0 bash scripts/mcu_build.sh
 ```
 
-Results land in `build/mcu-size.json`. Details and caveats:
-[`docs/NECL_VS_NEC2.md`](docs/NECL_VS_NEC2.md).
+Typical freestanding `.text` (see latest `bench/published/SUMMARY.md`): ~5 KB on
+Cortex-M3. Toolchain is fetched into `build/toolchains/` (gitignored).
 
 ## Layout
 
 ```
 include/nec_lite.h     public API
 native/                delta frontends
-lite/                  codec + gateway + ratio bench helpers
+lite/                  codec + gateway + benches
 mcu/                   freestanding harness + vendor peers
+bench/published/       frozen scorecard (regenerate with publish_bench.sh)
 scripts/               host + MCU tooling
-docs/                  datasheet + notes
-tests/                 unit/roundtrip tests
+docs/                  BENCH, PLATZ1, datasheet
+tests/                 roundtrip tests
 ```
 
 Vendor peers (bench only): heatshrink (ISC), lz4 (BSD-2), miniz (MIT) —

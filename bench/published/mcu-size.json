@@ -1,0 +1,178 @@
+{
+  "note": "arm-none-eabi-gcc 14.2.1 -Os -mthumb -ffreestanding -ffunction-sections --gc-sections. nec_lite stream harness n=2048 + enc/dec BSS; peers still 128B block. size -A .text is Flash (no libc).",
+  "toolchain": "xpack-arm-none-eabi-gcc-14.2.1-1.1",
+  "harness_payload_bytes": 2048,
+  "cortex-m3": {
+    "nec_lite": {
+      "text": 4920,
+      "data": 0,
+      "bss": 8832,
+      "flash": 4920,
+      "ram": 8832,
+      "harness_buffers": {
+        "coded": 2144,
+        "g_coded": 4,
+        "g_cy_dec": 4,
+        "g_cy_enc": 4,
+        "g_ok": 4,
+        "g_sink": 4,
+        "plain": 2048,
+        "src": 2048
+      },
+      "library_state": {
+        "dec": 1176,
+        "enc": 1392
+      },
+      "library_state_bytes": 2568,
+      "other_bss": 0,
+      "elf_bytes": 12272
+    },
+    "lz4": {
+      "text": 4308,
+      "data": 0,
+      "bss": 404,
+      "flash": 4308,
+      "ram": 404,
+      "harness_buffers": {
+        "back": 128,
+        "dst": 144,
+        "g_sink": 4,
+        "src": 128
+      },
+      "library_state": {},
+      "library_state_bytes": 0,
+      "other_bss": 0,
+      "elf_bytes": 10288
+    },
+    "miniz": {
+      "text": 4116,
+      "data": 0,
+      "bss": 516,
+      "flash": 4116,
+      "ram": 516,
+      "harness_buffers": {
+        "back": 128,
+        "dst": 256,
+        "g_sink": 4,
+        "src": 128
+      },
+      "library_state": {},
+      "library_state_bytes": 0,
+      "other_bss": 0,
+      "elf_bytes": 10164
+    },
+    "heatshrink": {
+      "text": 2168,
+      "data": 0,
+      "bss": 2404,
+      "flash": 2168,
+      "ram": 2404,
+      "harness_buffers": {
+        "back": 128,
+        "dst": 288,
+        "g_sink": 4,
+        "src": 128
+      },
+      "library_state": {
+        "dec": 302,
+        "enc": 1554
+      },
+      "library_state_bytes": 1856,
+      "other_bss": 0,
+      "elf_bytes": 8580
+    }
+  },
+  "cortex-m0": {
+    "nec_lite": {
+      "text": 5384,
+      "data": 0,
+      "bss": 8832,
+      "flash": 5384,
+      "ram": 8832,
+      "harness_buffers": {
+        "coded": 2144,
+        "g_coded": 4,
+        "g_cy_dec": 4,
+        "g_cy_enc": 4,
+        "g_ok": 4,
+        "g_sink": 4,
+        "plain": 2048,
+        "src": 2048
+      },
+      "library_state": {
+        "dec": 1176,
+        "enc": 1392
+      },
+      "library_state_bytes": 2568,
+      "other_bss": 0,
+      "elf_bytes": 13240
+    },
+    "lz4": {
+      "text": 6488,
+      "data": 0,
+      "bss": 404,
+      "flash": 6488,
+      "ram": 404,
+      "harness_buffers": {
+        "back": 128,
+        "dst": 144,
+        "g_sink": 4,
+        "src": 128
+      },
+      "library_state": {},
+      "library_state_bytes": 0,
+      "other_bss": 0,
+      "elf_bytes": 13040
+    },
+    "miniz": {
+      "text": 4828,
+      "data": 0,
+      "bss": 516,
+      "flash": 4828,
+      "ram": 516,
+      "harness_buffers": {
+        "back": 128,
+        "dst": 256,
+        "g_sink": 4,
+        "src": 128
+      },
+      "library_state": {},
+      "library_state_bytes": 0,
+      "other_bss": 0,
+      "elf_bytes": 11304
+    },
+    "heatshrink": {
+      "text": 2236,
+      "data": 0,
+      "bss": 2404,
+      "flash": 2236,
+      "ram": 2404,
+      "harness_buffers": {
+        "back": 128,
+        "dst": 288,
+        "g_sink": 4,
+        "src": 128
+      },
+      "library_state": {
+        "dec": 302,
+        "enc": 1554
+      },
+      "library_state_bytes": 1856,
+      "other_bss": 0,
+      "elf_bytes": 8832
+    }
+  },
+  "heatshrink": {
+    "version": "0.4.1",
+    "window_bits": 8,
+    "lookahead_bits": 4,
+    "dynamic_alloc": 0,
+    "use_index": 1
+  },
+  "ram_model": {
+    "nec_lite": "stream: caller-owned nec_lite_enc_t+dec_t (~1.4KiB each); scratch_bound=0; FLAG_STREAM records; n does not scale library RAM",
+    "lz4": "block: src=n + dst=LZ4_compressBound(n) + back=n; library BSS=0",
+    "miniz": "block: src=n + dst + back; library may keep probes in BSS/stack",
+    "heatshrink": "stream: constant encoder+decoder window (2^W); IO in arbitrary chunks"
+  }
+}

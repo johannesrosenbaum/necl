@@ -1,0 +1,39 @@
+{
+  "generated": "2026-09-17 15:38:55",
+  "vertical": "Geb\u00e4ude-/Hallen-Temperaturf\u00fchler (int16 Stream, Batch-TX)",
+  "claim": "ROI auf deploybarer NO_MALLOC-Ratio \u2014 nicht Host-0xCE/0xCB",
+  "ratio_pct": 59.86,
+  "ratio_source": "ablation-deployable.json (NO_MALLOC)",
+  "corpus": "nab_ambient_temp.i16le",
+  "assumptions": {
+    "interval_s": 300.0,
+    "batch_samples": 12,
+    "tx_interval_s": 3600.0,
+    "sample_bytes": 2,
+    "header_bytes": 12,
+    "devices": 500,
+    "years": 5.0,
+    "eur_per_mb": 0.5,
+    "tx_energy_share": 0.6,
+    "battery_years_raw": 4.0,
+    "service_eur": 55.0
+  },
+  "per_device_year": {
+    "samples": 105192.0,
+    "tx_count": 8766.0,
+    "tx_bytes_raw": 315576.0,
+    "tx_bytes_nec": 231127.9,
+    "tx_bytes_saved_frac": 0.2676
+  },
+  "fleet": {
+    "mb_raw": 752.392,
+    "mb_nec": 551.052,
+    "mb_saved": 201.34,
+    "eur_data_saved": 100.67,
+    "battery_years_raw": 4.0,
+    "battery_years_nec": 4.77,
+    "eur_service_saved": 5519.25,
+    "eur_total_saved": 5619.92
+  },
+  "pitch": "500 F\u00fchler, Sample/300s, Batch 12 \u2192 TX alle 60 min, deploybar 59.9% Rest \u2192 ca. 5620 \u20ac gespart \u00fcber 5 J (Daten + Batterie-Service, Modell)."
+}

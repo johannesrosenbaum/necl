@@ -1,0 +1,614 @@
+{
+  "suite": [
+    {
+      "corpus": "ticks",
+      "ratios": {
+        "nec_lite": 24.5,
+        "heatshrink": 51.2,
+        "lz4": 59.8,
+        "miniz": 40.1
+      },
+      "best": "nec_lite",
+      "nec_beats_heatshrink": true,
+      "nec_beats_sprintz": false
+    },
+    {
+      "corpus": "ticks_16k",
+      "ratios": {
+        "nec_lite": 24.6,
+        "heatshrink": 51.8,
+        "lz4": 63.8,
+        "miniz": 39.8
+      },
+      "best": "nec_lite",
+      "nec_beats_heatshrink": true,
+      "nec_beats_sprintz": false
+    },
+    {
+      "corpus": "timeseries_i16",
+      "ratios": {
+        "nec_lite": 58.7,
+        "sprintz_d": 58.7,
+        "heatshrink": 104.2,
+        "lz4": 100.4,
+        "miniz": 76.0,
+        "drh": 74.9
+      },
+      "best": "nec_lite",
+      "nec_beats_heatshrink": true,
+      "nec_beats_sprintz": true
+    },
+    {
+      "corpus": "nab_machine_temp.i16le",
+      "ratios": {
+        "nec_lite": 59.5,
+        "sprintz_d": 59.5,
+        "heatshrink": 103.7,
+        "lz4": 100.4,
+        "miniz": 81.8,
+        "drh": 75.7
+      },
+      "best": "nec_lite",
+      "nec_beats_heatshrink": true,
+      "nec_beats_sprintz": true
+    },
+    {
+      "corpus": "nab_ambient_temp.i16le",
+      "ratios": {
+        "nec_lite": 58.9,
+        "sprintz_d": 58.9,
+        "heatshrink": 101.8,
+        "lz4": 100.3,
+        "miniz": 76.8,
+        "drh": 74.9
+      },
+      "best": "nec_lite",
+      "nec_beats_heatshrink": true,
+      "nec_beats_sprintz": true
+    },
+    {
+      "corpus": "nab_ec2_cpu.i16le",
+      "ratios": {
+        "nec_lite": 19.1,
+        "sprintz_d": 30.7,
+        "heatshrink": 14.5,
+        "lz4": 43.4,
+        "miniz": 12.2,
+        "drh": 47.8
+      },
+      "best": "miniz",
+      "nec_beats_heatshrink": false,
+      "nec_beats_sprintz": true
+    },
+    {
+      "corpus": "melbourne_daily_min_temp.i16le",
+      "ratios": {
+        "nec_lite": 68.8,
+        "sprintz_d": 68.8,
+        "heatshrink": 89.9,
+        "lz4": 96.1,
+        "miniz": 67.7,
+        "drh": 80.2
+      },
+      "best": "miniz",
+      "nec_beats_heatshrink": true,
+      "nec_beats_sprintz": true
+    },
+    {
+      "corpus": "intel_lab_temp.i16le",
+      "ratios": {
+        "nec_lite": 37.3,
+        "sprintz_d": 48.4,
+        "heatshrink": 59.0,
+        "lz4": 67.5,
+        "miniz": 44.1,
+        "drh": 57.8
+      },
+      "best": "nec_lite",
+      "nec_beats_heatshrink": true,
+      "nec_beats_sprintz": true
+    },
+    {
+      "corpus": "ucr_Coffee.i16le",
+      "ratios": {
+        "nec_lite": 74.5,
+        "sprintz_d": 78.8,
+        "heatshrink": 112.1,
+        "lz4": 100.4,
+        "miniz": 99.1,
+        "drh": 88.2
+      },
+      "best": "nec_lite",
+      "nec_beats_heatshrink": true,
+      "nec_beats_sprintz": true
+    },
+    {
+      "corpus": "ucr_GunPoint.i16le",
+      "ratios": {
+        "nec_lite": 63.3,
+        "sprintz_d": 66.6,
+        "heatshrink": 109.4,
+        "lz4": 100.4,
+        "miniz": 95.2,
+        "drh": 79.2
+      },
+      "best": "nec_lite",
+      "nec_beats_heatshrink": true,
+      "nec_beats_sprintz": true
+    },
+    {
+      "corpus": "ucr_MoteStrain.i16le",
+      "ratios": {
+        "nec_lite": 74.9,
+        "sprintz_d": 75.9,
+        "heatshrink": 109.3,
+        "lz4": 99.7,
+        "miniz": 91.6,
+        "drh": 82.8
+      },
+      "best": "nec_lite",
+      "nec_beats_heatshrink": true,
+      "nec_beats_sprintz": true
+    },
+    {
+      "corpus": "ucr_ECG200.i16le",
+      "ratios": {
+        "nec_lite": 85.8,
+        "sprintz_d": 86.0,
+        "heatshrink": 111.9,
+        "lz4": 100.4,
+        "miniz": 97.5,
+        "drh": 93.5
+      },
+      "best": "nec_lite",
+      "nec_beats_heatshrink": true,
+      "nec_beats_sprintz": true
+    },
+    {
+      "corpus": "harness128",
+      "ratios": {
+        "nec_lite": 82.8,
+        "sprintz_d": 82.8,
+        "heatshrink": 112.5,
+        "lz4": 101.6,
+        "miniz": 108.6,
+        "drh": 11.7
+      },
+      "best": "drh",
+      "nec_beats_heatshrink": true,
+      "nec_beats_sprintz": true
+    },
+    {
+      "corpus": "random_16k",
+      "ratios": {
+        "nec_lite": 101.0,
+        "heatshrink": 112.3,
+        "lz4": 100.4,
+        "miniz": 100.1
+      },
+      "best": "miniz",
+      "nec_beats_heatshrink": true,
+      "nec_beats_sprintz": false
+    }
+  ],
+  "scorecard": {
+    "vs_heatshrink": "13/14",
+    "vs_sprintz": "11/11"
+  },
+  "mcu_size": {
+    "note": "arm-none-eabi-gcc 14.2.1 -Os -mthumb -ffreestanding -ffunction-sections --gc-sections. nec_lite stream harness n=2048 + enc/dec BSS; peers still 128B block. size -A .text is Flash (no libc).",
+    "toolchain": "xpack-arm-none-eabi-gcc-14.2.1-1.1",
+    "harness_payload_bytes": 2048,
+    "cortex-m3": {
+      "nec_lite": {
+        "text": 4920,
+        "data": 0,
+        "bss": 8832,
+        "flash": 4920,
+        "ram": 8832,
+        "harness_buffers": {
+          "coded": 2144,
+          "g_coded": 4,
+          "g_cy_dec": 4,
+          "g_cy_enc": 4,
+          "g_ok": 4,
+          "g_sink": 4,
+          "plain": 2048,
+          "src": 2048
+        },
+        "library_state": {
+          "dec": 1176,
+          "enc": 1392
+        },
+        "library_state_bytes": 2568,
+        "other_bss": 0,
+        "elf_bytes": 12272
+      },
+      "lz4": {
+        "text": 4308,
+        "data": 0,
+        "bss": 404,
+        "flash": 4308,
+        "ram": 404,
+        "harness_buffers": {
+          "back": 128,
+          "dst": 144,
+          "g_sink": 4,
+          "src": 128
+        },
+        "library_state": {},
+        "library_state_bytes": 0,
+        "other_bss": 0,
+        "elf_bytes": 10288
+      },
+      "miniz": {
+        "text": 4116,
+        "data": 0,
+        "bss": 516,
+        "flash": 4116,
+        "ram": 516,
+        "harness_buffers": {
+          "back": 128,
+          "dst": 256,
+          "g_sink": 4,
+          "src": 128
+        },
+        "library_state": {},
+        "library_state_bytes": 0,
+        "other_bss": 0,
+        "elf_bytes": 10164
+      },
+      "heatshrink": {
+        "text": 2168,
+        "data": 0,
+        "bss": 2404,
+        "flash": 2168,
+        "ram": 2404,
+        "harness_buffers": {
+          "back": 128,
+          "dst": 288,
+          "g_sink": 4,
+          "src": 128
+        },
+        "library_state": {
+          "dec": 302,
+          "enc": 1554
+        },
+        "library_state_bytes": 1856,
+        "other_bss": 0,
+        "elf_bytes": 8580
+      }
+    },
+    "cortex-m0": {
+      "nec_lite": {
+        "text": 5384,
+        "data": 0,
+        "bss": 8832,
+        "flash": 5384,
+        "ram": 8832,
+        "harness_buffers": {
+          "coded": 2144,
+          "g_coded": 4,
+          "g_cy_dec": 4,
+          "g_cy_enc": 4,
+          "g_ok": 4,
+          "g_sink": 4,
+          "plain": 2048,
+          "src": 2048
+        },
+        "library_state": {
+          "dec": 1176,
+          "enc": 1392
+        },
+        "library_state_bytes": 2568,
+        "other_bss": 0,
+        "elf_bytes": 13240
+      },
+      "lz4": {
+        "text": 6488,
+        "data": 0,
+        "bss": 404,
+        "flash": 6488,
+        "ram": 404,
+        "harness_buffers": {
+          "back": 128,
+          "dst": 144,
+          "g_sink": 4,
+          "src": 128
+        },
+        "library_state": {},
+        "library_state_bytes": 0,
+        "other_bss": 0,
+        "elf_bytes": 13040
+      },
+      "miniz": {
+        "text": 4828,
+        "data": 0,
+        "bss": 516,
+        "flash": 4828,
+        "ram": 516,
+        "harness_buffers": {
+          "back": 128,
+          "dst": 256,
+          "g_sink": 4,
+          "src": 128
+        },
+        "library_state": {},
+        "library_state_bytes": 0,
+        "other_bss": 0,
+        "elf_bytes": 11304
+      },
+      "heatshrink": {
+        "text": 2236,
+        "data": 0,
+        "bss": 2404,
+        "flash": 2236,
+        "ram": 2404,
+        "harness_buffers": {
+          "back": 128,
+          "dst": 288,
+          "g_sink": 4,
+          "src": 128
+        },
+        "library_state": {
+          "dec": 302,
+          "enc": 1554
+        },
+        "library_state_bytes": 1856,
+        "other_bss": 0,
+        "elf_bytes": 8832
+      }
+    },
+    "heatshrink": {
+      "version": "0.4.1",
+      "window_bits": 8,
+      "lookahead_bits": 4,
+      "dynamic_alloc": 0,
+      "use_index": 1
+    },
+    "ram_model": {
+      "nec_lite": "stream: caller-owned nec_lite_enc_t+dec_t (~1.4KiB each); scratch_bound=0; FLAG_STREAM records; n does not scale library RAM",
+      "lz4": "block: src=n + dst=LZ4_compressBound(n) + back=n; library BSS=0",
+      "miniz": "block: src=n + dst + back; library may keep probes in BSS/stack",
+      "heatshrink": "stream: constant encoder+decoder window (2^W); IO in arbitrary chunks"
+    }
+  },
+  "host_timing": {
+    "corpus": "timeseries_16k",
+    "n": 16384,
+    "loops": 40,
+    "rows": [
+      {
+        "codec": "nec_lite",
+        "orig": 16384,
+        "coded": 9627,
+        "enc_ns_med": 27977,
+        "dec_ns_med": 32662,
+        "enc_mb_s": 558.49,
+        "dec_mb_s": 478.38
+      },
+      {
+        "codec": "heatshrink",
+        "orig": 16384,
+        "coded": 17060,
+        "enc_ns_med": 1020683,
+        "dec_ns_med": 166106,
+        "enc_mb_s": 15.31,
+        "dec_mb_s": 94.07
+      },
+      {
+        "codec": "lz4",
+        "orig": 16384,
+        "coded": 16450,
+        "enc_ns_med": 1646,
+        "dec_ns_med": 217,
+        "enc_mb_s": 9492.71,
+        "dec_mb_s": 72004.61
+      },
+      {
+        "codec": "sprintz_d",
+        "orig": 16384,
+        "coded": 9627,
+        "enc_ns_med": 18498,
+        "dec_ns_med": 27804,
+        "enc_mb_s": 844.69,
+        "dec_mb_s": 561.97
+      }
+    ],
+    "tsz": "skipped_no_cargo"
+  },
+  "qemu_bench": {
+    "ok": 1,
+    "n": 2048,
+    "coded": 652,
+    "cy_enc": 0,
+    "cy_dec": 0,
+    "source": "qemu-lm3s6965evb-semihost",
+    "note": "DWT cy_* oft 0 unter QEMU; Roundtrip ok=1 ist der echte MCU-Smoke-Test"
+  },
+  "ablation": {
+    "generated": "2026-09-17 15:39:27",
+    "note": "deployable = Stream Bitpack/Zero/STORE under NEC_LITE_NO_MALLOC; host = FE_I16 choose-best (may use 0xCE/0xCF/0xCB or stream+RC).",
+    "deployable": {
+      "label": "NO_MALLOC stream",
+      "deployable": true,
+      "nomalloc": 1,
+      "rows": [
+        {
+          "corpus": "ticks",
+          "frontend": 2,
+          "orig": 144000,
+          "coded": 145158,
+          "ratio_pct": 100.8,
+          "mark": "0x4e"
+        },
+        {
+          "corpus": "timeseries_i16",
+          "frontend": 1,
+          "orig": 160000,
+          "coded": 95209,
+          "ratio_pct": 59.51,
+          "mark": "0x4e"
+        },
+        {
+          "corpus": "nab_machine_temp.i16le",
+          "frontend": 1,
+          "orig": 45390,
+          "coded": 27401,
+          "ratio_pct": 60.37,
+          "mark": "0x4e"
+        },
+        {
+          "corpus": "nab_ambient_temp.i16le",
+          "frontend": 1,
+          "orig": 14534,
+          "coded": 8700,
+          "ratio_pct": 59.86,
+          "mark": "0x4e"
+        },
+        {
+          "corpus": "nab_ec2_cpu.i16le",
+          "frontend": 1,
+          "orig": 8064,
+          "coded": 2570,
+          "ratio_pct": 31.87,
+          "mark": "0x4e"
+        },
+        {
+          "corpus": "melbourne_daily_min_temp.i16le",
+          "frontend": 1,
+          "orig": 7300,
+          "coded": 5107,
+          "ratio_pct": 69.96,
+          "mark": "0x4e"
+        },
+        {
+          "corpus": "intel_lab_temp.i16le",
+          "frontend": 1,
+          "orig": 800000,
+          "coded": 393616,
+          "ratio_pct": 49.2,
+          "mark": "0x4e"
+        },
+        {
+          "corpus": "joint_7axis_1khz_10s.i16le",
+          "frontend": 1,
+          "orig": 140000,
+          "coded": 45193,
+          "ratio_pct": 32.28,
+          "mark": "0x4e"
+        }
+      ]
+    },
+    "host": {
+      "label": "host choose-best",
+      "deployable": false,
+      "nomalloc": 0,
+      "rows": [
+        {
+          "corpus": "ticks",
+          "frontend": 2,
+          "orig": 144000,
+          "coded": 35257,
+          "ratio_pct": 24.48,
+          "mark": "0x4e"
+        },
+        {
+          "corpus": "timeseries_i16",
+          "frontend": 1,
+          "orig": 160000,
+          "coded": 93932,
+          "ratio_pct": 58.71,
+          "mark": "0xce"
+        },
+        {
+          "corpus": "nab_machine_temp.i16le",
+          "frontend": 1,
+          "orig": 45390,
+          "coded": 27017,
+          "ratio_pct": 59.52,
+          "mark": "0xce"
+        },
+        {
+          "corpus": "nab_ambient_temp.i16le",
+          "frontend": 1,
+          "orig": 14534,
+          "coded": 8558,
+          "ratio_pct": 58.88,
+          "mark": "0xce"
+        },
+        {
+          "corpus": "nab_ec2_cpu.i16le",
+          "frontend": 1,
+          "orig": 8064,
+          "coded": 1540,
+          "ratio_pct": 19.1,
+          "mark": "0xcb"
+        },
+        {
+          "corpus": "melbourne_daily_min_temp.i16le",
+          "frontend": 1,
+          "orig": 7300,
+          "coded": 5021,
+          "ratio_pct": 68.78,
+          "mark": "0xce"
+        },
+        {
+          "corpus": "intel_lab_temp.i16le",
+          "frontend": 1,
+          "orig": 800000,
+          "coded": 298332,
+          "ratio_pct": 37.29,
+          "mark": "0x4e"
+        },
+        {
+          "corpus": "joint_7axis_1khz_10s.i16le",
+          "frontend": 1,
+          "orig": 140000,
+          "coded": 41074,
+          "ratio_pct": 29.34,
+          "mark": "0xcf"
+        }
+      ]
+    }
+  },
+  "roi_sensor": {
+    "generated": "2026-09-17 15:38:55",
+    "vertical": "Geb\u00e4ude-/Hallen-Temperaturf\u00fchler (int16 Stream, Batch-TX)",
+    "claim": "ROI auf deploybarer NO_MALLOC-Ratio \u2014 nicht Host-0xCE/0xCB",
+    "ratio_pct": 59.86,
+    "ratio_source": "ablation-deployable.json (NO_MALLOC)",
+    "corpus": "nab_ambient_temp.i16le",
+    "assumptions": {
+      "interval_s": 300.0,
+      "batch_samples": 12,
+      "tx_interval_s": 3600.0,
+      "sample_bytes": 2,
+      "header_bytes": 12,
+      "devices": 500,
+      "years": 5.0,
+      "eur_per_mb": 0.5,
+      "tx_energy_share": 0.6,
+      "battery_years_raw": 4.0,
+      "service_eur": 55.0
+    },
+    "per_device_year": {
+      "samples": 105192.0,
+      "tx_count": 8766.0,
+      "tx_bytes_raw": 315576.0,
+      "tx_bytes_nec": 231127.9,
+      "tx_bytes_saved_frac": 0.2676
+    },
+    "fleet": {
+      "mb_raw": 752.392,
+      "mb_nec": 551.052,
+      "mb_saved": 201.34,
+      "eur_data_saved": 100.67,
+      "battery_years_raw": 4.0,
+      "battery_years_nec": 4.77,
+      "eur_service_saved": 5519.25,
+      "eur_total_saved": 5619.92
+    },
+    "pitch": "500 F\u00fchler, Sample/300s, Batch 12 \u2192 TX alle 60 min, deploybar 59.9% Rest \u2192 ca. 5620 \u20ac gespart \u00fcber 5 J (Daten + Batterie-Service, Modell)."
+  }
+}

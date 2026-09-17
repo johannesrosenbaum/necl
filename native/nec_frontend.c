@@ -45,8 +45,39 @@ void nec_delta_st_init(nec_delta_st *s) {
     if (!s)
         return;
     s->prev_i16 = 0;
+    s->prev2_i16 = 0;
+    s->fire_l = 256; /* pure velocity; lernen nur noch feinjustieren */
     s->prev_ts = 0;
     s->prev_px = 0;
+}
+
+static int16_t nec_sat_i16(int32_t x) {
+    if (x > 32767)
+        return 32767;
+    if (x < -32768)
+        return -32768;
+    return (int16_t)x;
+}
+
+static int16_t nec_fire_predict(const nec_delta_st *s) {
+    int32_t slope = (int32_t)s->prev_i16 - (int32_t)s->prev2_i16;
+    int32_t pred = (int32_t)s->prev_i16 + ((slope * (int32_t)s->fire_l) >> 8);
+    return nec_sat_i16(pred);
+}
+
+static void nec_fire_learn(nec_delta_st *s, int16_t x, int16_t err) {
+    int32_t slope = (int32_t)s->prev_i16 - (int32_t)s->prev2_i16;
+    if (slope != 0 && err != 0) {
+        int same = ((err > 0) && (slope > 0)) || ((err < 0) && (slope < 0));
+        if (same) {
+            if (s->fire_l < 256)
+                s->fire_l = (int16_t)(s->fire_l + 1);
+        } else if (s->fire_l > 0) {
+            s->fire_l = (int16_t)(s->fire_l - 1);
+        }
+    }
+    s->prev2_i16 = s->prev_i16;
+    s->prev_i16 = x;
 }
 
 int nec_delta_fwd_chunk(nec_delta_st *s, int fe, const uint8_t *src, uint8_t *dst, size_t n) {
@@ -64,6 +95,18 @@ int nec_delta_fwd_chunk(nec_delta_st *s, int fe, const uint8_t *src, uint8_t *ds
             int16_t d = (int16_t)(x - s->prev_i16);
             nec_store_u16(dst + i, nec_zz16(d));
             s->prev_i16 = x;
+        }
+        if (i < n)
+            dst[i] = src[i];
+        return 0;
+    }
+    if (fe == NEC_DELTA_I16_FIRE) {
+        for (i = 0; i + 1 < n; i += 2) {
+            int16_t x = (int16_t)nec_load_u16(src + i);
+            int16_t pred = nec_fire_predict(s);
+            int16_t err = (int16_t)(x - pred);
+            nec_store_u16(dst + i, nec_zz16(err));
+            nec_fire_learn(s, x, err);
         }
         if (i < n)
             dst[i] = src[i];
@@ -97,6 +140,16 @@ int nec_delta_inv_chunk(nec_delta_st *s, int fe, uint8_t *buf, size_t n) {
             int16_t x = (int16_t)(s->prev_i16 + d);
             nec_store_u16(buf + i, (uint16_t)x);
             s->prev_i16 = x;
+        }
+        return 0;
+    }
+    if (fe == NEC_DELTA_I16_FIRE) {
+        for (i = 0; i + 1 < n; i += 2) {
+            int16_t err = nec_unzz16(nec_load_u16(buf + i));
+            int16_t pred = nec_fire_predict(s);
+            int16_t x = (int16_t)(pred + err);
+            nec_store_u16(buf + i, (uint16_t)x);
+            nec_fire_learn(s, x, err);
         }
         return 0;
     }

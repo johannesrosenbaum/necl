@@ -1,0 +1,146 @@
+{
+  "generated": "2026-09-17 15:39:27",
+  "note": "deployable = Stream Bitpack/Zero/STORE under NEC_LITE_NO_MALLOC; host = FE_I16 choose-best (may use 0xCE/0xCF/0xCB or stream+RC).",
+  "deployable": {
+    "label": "NO_MALLOC stream",
+    "deployable": true,
+    "nomalloc": 1,
+    "rows": [
+      {
+        "corpus": "ticks",
+        "frontend": 2,
+        "orig": 144000,
+        "coded": 145158,
+        "ratio_pct": 100.8,
+        "mark": "0x4e"
+      },
+      {
+        "corpus": "timeseries_i16",
+        "frontend": 1,
+        "orig": 160000,
+        "coded": 95209,
+        "ratio_pct": 59.51,
+        "mark": "0x4e"
+      },
+      {
+        "corpus": "nab_machine_temp.i16le",
+        "frontend": 1,
+        "orig": 45390,
+        "coded": 27401,
+        "ratio_pct": 60.37,
+        "mark": "0x4e"
+      },
+      {
+        "corpus": "nab_ambient_temp.i16le",
+        "frontend": 1,
+        "orig": 14534,
+        "coded": 8700,
+        "ratio_pct": 59.86,
+        "mark": "0x4e"
+      },
+      {
+        "corpus": "nab_ec2_cpu.i16le",
+        "frontend": 1,
+        "orig": 8064,
+        "coded": 2570,
+        "ratio_pct": 31.87,
+        "mark": "0x4e"
+      },
+      {
+        "corpus": "melbourne_daily_min_temp.i16le",
+        "frontend": 1,
+        "orig": 7300,
+        "coded": 5107,
+        "ratio_pct": 69.96,
+        "mark": "0x4e"
+      },
+      {
+        "corpus": "intel_lab_temp.i16le",
+        "frontend": 1,
+        "orig": 800000,
+        "coded": 393616,
+        "ratio_pct": 49.2,
+        "mark": "0x4e"
+      },
+      {
+        "corpus": "joint_7axis_1khz_10s.i16le",
+        "frontend": 1,
+        "orig": 140000,
+        "coded": 45193,
+        "ratio_pct": 32.28,
+        "mark": "0x4e"
+      }
+    ]
+  },
+  "host": {
+    "label": "host choose-best",
+    "deployable": false,
+    "nomalloc": 0,
+    "rows": [
+      {
+        "corpus": "ticks",
+        "frontend": 2,
+        "orig": 144000,
+        "coded": 35257,
+        "ratio_pct": 24.48,
+        "mark": "0x4e"
+      },
+      {
+        "corpus": "timeseries_i16",
+        "frontend": 1,
+        "orig": 160000,
+        "coded": 93932,
+        "ratio_pct": 58.71,
+        "mark": "0xce"
+      },
+      {
+        "corpus": "nab_machine_temp.i16le",
+        "frontend": 1,
+        "orig": 45390,
+        "coded": 27017,
+        "ratio_pct": 59.52,
+        "mark": "0xce"
+      },
+      {
+        "corpus": "nab_ambient_temp.i16le",
+        "frontend": 1,
+        "orig": 14534,
+        "coded": 8558,
+        "ratio_pct": 58.88,
+        "mark": "0xce"
+      },
+      {
+        "corpus": "nab_ec2_cpu.i16le",
+        "frontend": 1,
+        "orig": 8064,
+        "coded": 1540,
+        "ratio_pct": 19.1,
+        "mark": "0xcb"
+      },
+      {
+        "corpus": "melbourne_daily_min_temp.i16le",
+        "frontend": 1,
+        "orig": 7300,
+        "coded": 5021,
+        "ratio_pct": 68.78,
+        "mark": "0xce"
+      },
+      {
+        "corpus": "intel_lab_temp.i16le",
+        "frontend": 1,
+        "orig": 800000,
+        "coded": 298332,
+        "ratio_pct": 37.29,
+        "mark": "0x4e"
+      },
+      {
+        "corpus": "joint_7axis_1khz_10s.i16le",
+        "frontend": 1,
+        "orig": 140000,
+        "coded": 41074,
+        "ratio_pct": 29.34,
+        "mark": "0xcf"
+      }
+    ]
+  }
+}

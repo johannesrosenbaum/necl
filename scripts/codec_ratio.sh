@@ -27,6 +27,8 @@ python3 "$ROOT/scripts/ucr_to_i16le.py" || echo "WARN: UCR-Konvertierung fehlges
   "$ROOT/lite/nec_lite.c" \
   "$ROOT/lite/drh.c" \
   "$ROOT/lite/sprintz_delta.c" \
+  "$ROOT/lite/proglz.c" \
+  "$ROOT/lite/schulduhr.c" \
   "$ROOT/native/nec_frontend.c" \
   "$ROOT/mcu/hs_stream.c" \
   "$VENDOR/heatshrink_encoder.c" \
@@ -38,19 +40,27 @@ python3 "$ROOT/scripts/ucr_to_i16le.py" || echo "WARN: UCR-Konvertierung fehlges
   -lm -o "$OUT/codec_ratio"
 
 export NEC_DATA_DIR="$DATA_DIR"
-"$OUT/codec_ratio" | tee "$OUT/mcu/ratio.txt"
+export NEC_HOST_TIMING_JSON="$OUT/mcu/host-timing.json"
+"$OUT/codec_ratio" | tee "$OUT/mcu/ratio-full.txt"
 python3 - << PY
-import json, pathlib
+import json, pathlib, re
 root = pathlib.Path(r"$OUT/mcu")
 rows = []
-for line in (root / "ratio.txt").read_text().splitlines()[1:]:
-    parts = line.split()
-    if len(parts) >= 5:
-        rows.append({
-            "corpus": parts[0], "codec": parts[1],
-            "orig": int(parts[2]), "coded": int(parts[3]),
-            "ratio": parts[4],
-        })
+pat = re.compile(r"^(\S+)\s+(\S+)\s+(\d+)\s+(\d+)\s+([\d.]+%)\s*$")
+for line in (root / "ratio-full.txt").read_text().splitlines():
+    m = pat.match(line)
+    if not m:
+        continue
+    rows.append({
+        "corpus": m.group(1), "codec": m.group(2),
+        "orig": int(m.group(3)), "coded": int(m.group(4)),
+        "ratio": m.group(5),
+    })
+(root / "ratio.txt").write_text(
+    "corpus           codec           orig    coded   ratio\n"
+    + "\n".join(f"{r['corpus']:16s} {r['codec']:12s} {r['orig']:8d} {r['coded']:8d} {r['ratio']:>7s}" for r in rows)
+    + "\n"
+)
 payload = {"rows": rows}
 size_path = root / "mcu-size.json"
 if size_path.exists():
@@ -63,6 +73,7 @@ if size_path.exists():
             totals.append({**r, "flash_m0": f, "flash_plus_coded": f + r["coded"]})
     payload["flash_plus_payload_m0"] = totals
 (root / "ratio.json").write_text(json.dumps(payload, indent=2) + "\n")
-print("wrote", root / "ratio.json")
+print("wrote", root / "ratio.json", "rows", len(rows))
 PY
+python3 "$ROOT/scripts/platz1_report.py" || true
 echo "wrote $OUT/mcu/ratio.txt"

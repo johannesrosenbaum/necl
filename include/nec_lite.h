@@ -5,9 +5,17 @@
  * nec_lite — Mojo-freier C-Pfad fürs Gateway/MCU.
  *
  * Kein malloc, kein N-Gramm, kein Arithmetic-Coder.
- * Encoder: optional Delta+ZigZag (Zustand über Chunks), dann Nibble-Range-
- * Coder in 256-Byte-Chunks mit per-Chunk-STORE. Framing: FLAG_STREAM
- * self-describing records (kein Bitpack, n muss nicht vorab bekannt sein).
+ * Encoder: optional Delta/FIRE+ZigZag, dann choose-best aus Nibble-RC /
+ * int16-Bitpack+RLE / STORE in 256-Byte-Chunks. Framing: FLAG_STREAM
+ * self-describing records.
+ *
+ * Record-Kinds: 0x00 END | 0x01–0xFC RC | 0xFD Bitpack (nsym+plen) |
+ * 0xFB Bitpack full-chunk (nur plen) | 0xFA Whole-Buffer-Bitpack (u32 plen) |
+ * 0xFE Zero | 0xFF STORE.
+ *
+ * Kompakt-Block (Host FE_I16 Winner): 0xCE/0xCF | orig_u32 | bitpack
+ * — Sprintz-Parity (5+bp), Transport-CRC angenommen.
+ * Plateau/LZ: 0xCB | orig_u32 | lit/match-Bytes (Host choose-best).
  *
  * RAM: Library-Heap = 0. Block-API: scratch_bound = 0 (kein O(n)-Scratch).
  * Arbeitsset = nec_lite_enc_t / nec_lite_dec_t (Caller, ~1.4 KiB), plus
@@ -41,11 +49,21 @@ extern "C" {
 #define NEC_LITE_FLAG_RLE       8u /* legacy decoder unused; encoder writes FLAG_RC */
 #define NEC_LITE_FLAG_RC        16u
 #define NEC_LITE_FLAG_STREAM    32u
+#define NEC_LITE_FLAG_FIRE_I16  64u /* int16 FIRE predictor (order-2 + learn) */
+/* Kompakt-Telemetrie (Block): 0xCE/0xCF + orig_u32 + bitpack — Sprintz-nah.
+ * 0xCB: Mini-LZ für Plateaus (z.B. nab_ec2). */
+#define NEC_LITE_COMPACT_DELTA  0xCEu
+#define NEC_LITE_COMPACT_FIRE   0xCFu
+#define NEC_LITE_COMPACT_LZ     0xCBu
+#define NEC_LITE_COMPACT_HEAD   5u
+#define NEC_LITE_COMPACT_CRC    4u
 #define NEC_LITE_WEIGHT_ID      0x4E45434Cu /* "NECL" */
 
-#define NEC_LITE_FE_NONE  0
-#define NEC_LITE_FE_I16   1
-#define NEC_LITE_FE_TICK8 2
+#define NEC_LITE_FE_NONE      0
+#define NEC_LITE_FE_I16       1 /* block: choose-best Delta vs FIRE */
+#define NEC_LITE_FE_TICK8     2
+#define NEC_LITE_FE_I16_FIRE  3 /* force FIRE */
+#define NEC_LITE_FE_I16_DELTA 4 /* force plain delta */
 
 #define NEC_LITE_RC_TMP (NEC_LITE_CHUNK * 2u + 16u)
 
@@ -102,6 +120,8 @@ typedef struct nec_lite_enc {
     uint8_t chunk[NEC_LITE_CHUNK];
     uint8_t rc_tmp[NEC_LITE_RC_TMP];
     int16_t prev_i16;
+    int16_t prev2_i16;
+    int16_t fire_l;
     int32_t prev_ts;
     int32_t prev_px;
     uint32_t crc_state;
@@ -120,6 +140,8 @@ typedef struct nec_lite_dec {
     uint8_t in[288];
     uint8_t chunk[NEC_LITE_CHUNK];
     int16_t prev_i16;
+    int16_t prev2_i16;
+    int16_t fire_l;
     int32_t prev_ts;
     int32_t prev_px;
     uint32_t crc_state;
@@ -140,6 +162,7 @@ typedef struct nec_lite_dec {
     uint8_t done;
     uint8_t want_nsym;
     uint8_t want_pay;
+    uint8_t want_bp_hdr; /* nach 0xFD: noch 2 Byte plen */
     int err;
 } nec_lite_dec_t;
 

@@ -9,12 +9,15 @@ extern "C" {
 #endif
 
 /* Matches NEC_LITE_FE_*. */
-#define NEC_DELTA_NONE  0
-#define NEC_DELTA_I16   1
-#define NEC_DELTA_TICK8 2
+#define NEC_DELTA_NONE     0
+#define NEC_DELTA_I16      1
+#define NEC_DELTA_TICK8    2
+#define NEC_DELTA_I16_FIRE 3
 
 typedef struct {
     int16_t prev_i16;
+    int16_t prev2_i16;
+    int16_t fire_l; /* Q8 slope gain, 0..256 */
     int32_t prev_ts;
     int32_t prev_px;
 } nec_delta_st;
